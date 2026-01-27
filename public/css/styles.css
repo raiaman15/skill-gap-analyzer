@@ -1,0 +1,294 @@
+:root {
+    /* Enterprise Palette */
+    --brand-red: #E31837; /* Primary Brand Red */
+    --brand-dark-blue: #001871; /* Primary Brand Blue */
+    --brand-gray-bg: #F2F2F2;
+    --brand-border: #CCCCCC;
+    --brand-text: #333333;
+    --brand-link: #00529b;
+    
+    /* Functional Colors */
+    --status-green: #008542;
+    --status-amber: #ffaa00;
+    --status-red: #da291c;
+    
+    /* Layout */
+    --header-height: 80px;
+    --nav-height: 40px;
+    --footer-height: 50px;
+}
+
+body {
+    font-family: 'Verdana', 'Arial', sans-serif; /* Enterprise standard */
+    background-color: var(--brand-gray-bg);
+    color: var(--brand-text);
+    margin: 0;
+    padding: 0;
+    font-size: 13px; /* Slightly smaller for data density */
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* --- Enterprise Header --- */
+header {
+    background: linear-gradient(to right, #ffffff 0%, #f4f4f4 100%);
+    border-bottom: 4px solid var(--brand-red);
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+}
+
+.brand-area {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+}
+
+.logo-text {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: var(--brand-dark-blue);
+    font-size: 28px;
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+}
+
+.app-name {
+    margin-left: 15px;
+    padding-left: 15px;
+    border-left: 1px solid #999;
+    font-size: 18px;
+    color: #555;
+    font-weight: normal;
+}
+
+.user-controls {
+    text-align: right;
+    font-size: 12px;
+}
+
+.user-name {
+    font-weight: bold;
+    color: var(--brand-dark-blue);
+    display: block;
+}
+
+.logout-link {
+    color: var(--brand-red);
+    text-decoration: none;
+    font-size: 11px;
+}
+
+/* --- Global Navigation Bar --- */
+.global-nav {
+    background-color: var(--brand-dark-blue);
+    height: var(--nav-height);
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.global-nav a {
+    color: white;
+    text-decoration: none;
+    padding: 0 20px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 13px;
+    border-right: 1px solid rgba(255,255,255,0.1);
+    transition: background-color 0.2s;
+}
+
+.global-nav a:first-child {
+    border-left: 1px solid rgba(255,255,255,0.1);
+}
+
+.global-nav a:hover, .global-nav a.active {
+    background-color: rgba(255,255,255,0.15);
+}
+
+/* --- Main Layout --- */
+.main-container {
+    padding: 20px 30px;
+    flex: 1;
+    max-width: 1400px; /* Wider for enterprise data */
+    margin: 0 auto;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.page-title {
+    font-size: 20px;
+    color: var(--brand-text);
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+    margin-bottom: 20px;
+    font-weight: normal;
+}
+
+/* --- Cards / Panels --- */
+.content-panel {
+    background: white;
+    border: 1px solid #dcdcdc;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+}
+
+/* --- Data Grid / Tables --- */
+.table-responsive {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    border: 1px solid #ccc;
+    margin-bottom: 15px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+    min-width: 600px; /* Ensure table doesn't squash too much */
+}
+
+thead {
+    background-color: #e6e6e6;
+    border-bottom: 2px solid #ccc;
+}
+
+th {
+    text-align: left;
+    padding: 10px;
+    color: var(--brand-text);
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 11px;
+}
+
+td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #eee;
+    color: #333;
+    vertical-align: middle;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+tr:hover {
+    background-color: #f0f8ff; /* AliceBlue hover */
+    cursor: default;
+}
+
+/* --- Stats Cards --- */
+.kpi-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.kpi-card {
+    background: white;
+    border: 1px solid #ccc;
+    flex: 1;
+    padding: 15px;
+    border-top: 4px solid var(--brand-dark-blue);
+}
+
+.kpi-card.alert { border-top-color: var(--brand-red); }
+.kpi-card.warn { border-top-color: var(--status-amber); }
+.kpi-card.good { border-top-color: var(--status-green); }
+
+.kpi-value {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.kpi-label {
+    font-size: 11px;
+    color: #666;
+    text-transform: uppercase;
+}
+
+/* --- Buttons --- */
+.btn {
+    display: inline-block;
+    padding: 8px 16px; /* Slightly larger padding */
+    font-size: 12px;
+    font-weight: bold;
+    text-decoration: none;
+    cursor: pointer;
+    border: 1px solid transparent;
+    border-radius: 4px; /* Softer corners */
+    transition: all 0.2s ease-in-out;
+    text-transform: uppercase; /* Enterprise style */
+    letter-spacing: 0.5px;
+}
+
+.btn-primary {
+    background-color: var(--brand-red);
+    color: white;
+    box-shadow: 0 2px 4px rgba(227, 24, 55, 0.2);
+}
+
+.btn-primary:hover {
+    background-color: #be0f2d;
+    box-shadow: 0 4px 8px rgba(227, 24, 55, 0.3);
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background-color: white;
+    border-color: var(--brand-border);
+    color: var(--brand-text);
+}
+
+.btn-secondary:hover {
+    background-color: var(--brand-gray-bg);
+    border-color: #bbb;
+    color: var(--brand-dark-blue);
+}
+
+.btn-outline-primary {
+    background-color: transparent;
+    border: 1px solid var(--brand-link);
+    color: var(--brand-link);
+}
+
+.btn-outline-primary:hover {
+    background-color: #f0f8ff;
+    border-color: var(--brand-dark-blue);
+    color: var(--brand-dark-blue);
+}
+
+/* --- Status Badges --- */
+.status-indicator {
+    display: inline-block;
+    padding: 3px 8px;
+    font-size: 11px;
+    border-radius: 2px;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.status-ok { background-color: #e6f4ea; color: var(--status-green); border: 1px solid #bce2c7; }
+.status-warn { background-color: #fef7e0; color: #b06000; border: 1px solid #f9e3b0; }
+.status-err { background-color: #fce8e6; color: var(--status-red); border: 1px solid #fad2cf; }
+
+/* --- Footer --- */
+footer {
+    background-color: white;
+    border-top: 1px solid #ccc;
+    padding: 15px 30px;
+    font-size: 11px;
+    color: #666;
+    margin-top: auto;
+}

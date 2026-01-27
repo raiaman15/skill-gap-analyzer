@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!-- 
+  Manager Settings Page
+  - Allows configuration of system preferences.
+  - Currently supports toggling Email Notifications (On/Off).
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | Skill Gap Analyzer</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="brand-area">
+            <span class="logo-text">Company Name</span>
+            <span class="app-name">Skill Gap Analyzer</span>
+        </div>
+        <div class="user-controls">
+            <span class="user-name">Specter, Harvey (Senior Partner)</span>
+            <a href="#" class="logout-link">Log Out</a>
+        </div>
+    </header>
+
+    <nav class="global-nav">
+        <a href="manager-dashboard.html">Team Overview</a>
+        <a href="manager-reports.html">Reports</a>
+        <a href="manager-import-data.html">Data Import</a>
+        <a href="manager-settings.html" class="active">Settings</a>
+    </nav>
+
+    <div class="main-container">
+        <h1 class="page-title">System Settings</h1>
+
+        <div class="content-panel">
+            <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">General Preferences</h3>
+            <form>
+                <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 15px;">
+                    <label style="font-weight: bold; margin: 0;">Email Notifications:</label>
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                        <input type="radio" id="email-on" name="email-notif" value="on" checked>
+                        <label for="email-on" style="font-weight: normal; margin: 0;">On</label>
+                        <input type="radio" id="email-off" name="email-notif" value="off">
+                        <label for="email-off" style="font-weight: normal; margin: 0;">Off</label>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-primary">Save Settings</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Company Name Corporation. All rights reserved. For Internal Use Only.
+    </footer>
+
+</body>
+</html>

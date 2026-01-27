@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!-- 
+  Manager Reports Page
+  - Displays skill distribution analytics (charts placeholder).
+  - Provides a detailed table listing specific skill gaps per employee.
+  - Highlights review status and compliance.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports | Skill Gap Analyzer</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="brand-area">
+            <span class="logo-text">Company Name</span>
+            <span class="app-name">Skill Gap Analyzer</span>
+        </div>
+        <div class="user-controls">
+            <span class="user-name">Specter, Harvey (Senior Partner)</span>
+            <a href="#" class="logout-link">Log Out</a>
+        </div>
+    </header>
+
+    <nav class="global-nav">
+        <a href="manager-dashboard.html">Team Overview</a>
+        <a href="manager-reports.html" class="active">Reports</a>
+        <a href="manager-import-data.html">Data Import</a>
+        <a href="manager-settings.html">Settings</a>
+    </nav>
+
+    <div class="main-container">
+        <h1 class="page-title">Team Reports</h1>
+
+        <div class="content-panel">
+            <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">Skill Distribution Analysis</h3>
+            <div style="height: 200px; background: #fafafa; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; color: #999;">
+                [Interactive Chart Component Placeholder]
+            </div>
+        </div>
+
+        <div class="content-panel">
+            <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">Detailed Report</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee</th>
+                        <th>Skills with Gaps</th>
+                        <th>Skill Gaps Count</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Ross, Mike</td>
+                        <td>Legal Research, Client Negotiation</td>
+                        <td>2</td>
+                        <td><span class="status-indicator status-warn">Review Needed</span></td>
+                    </tr>
+                    <tr>
+                        <td>Paulsen, Donna</td>
+                        <td>-</td>
+                        <td>0</td>
+                        <td><span class="status-indicator status-ok">Compliant</span></td>
+                    </tr>
+                </tbody>
+            </table>
+             <div style="margin-top: 15px;">
+                <button class="btn btn-secondary">Export to CSV</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; 2026 Company Name Corporation. All rights reserved. For Internal Use Only.
+    </footer>
+
+</body>
+</html>

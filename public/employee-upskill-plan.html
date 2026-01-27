@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<!-- 
+  Employee Up-Skill Plan Page
+  - Displays a grid of skill cards to highlight multiple gaps immediately.
+  - Uses an expandable/accordion UX to show details without losing context.
+  - Prioritizes skills with gaps using visual hierarchy.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Up-Skill Plan | Skill Gap Analyzer</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .alert {
+            padding: 15px 20px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            font-size: 13px;
+        }
+
+        .alert-danger {
+            background-color: #fce8e6;
+            border: 1px solid #fad2cf;
+            color: var(--status-red);
+        }
+
+        .alert-warning {
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            color: #856404;
+        }
+
+        .skill-cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .skill-card-wrapper {
+            background: white;
+            border: 1px solid #dcdcdc;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: box-shadow 0.2s;
+        }
+
+        .skill-card-wrapper:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+
+        .skill-card-header {
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            background: #fff;
+        }
+
+        .skill-card-header.gap-identified {
+            border-left: 5px solid var(--status-red);
+        }
+
+        .skill-card-header.on-target {
+            border-left: 5px solid var(--status-green);
+        }
+
+        .header-main {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .skill-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+        }
+
+        .skill-meta {
+            font-size: 13px;
+            color: #666;
+            margin-top: 4px;
+        }
+
+        .status-badge {
+            padding: 5px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+
+        .badge-gap { background: #fce8e6; color: var(--status-red); }
+        .badge-ok { background: #e6f4ea; color: var(--status-green); }
+
+        .toggle-btn {
+            background: white;
+            border: 1px solid var(--brand-link);
+            color: var(--brand-link);
+            border-radius: 4px;
+            padding: 6px 12px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            text-transform: uppercase;
+            transition: all 0.2s;
+        }
+
+        .toggle-btn:hover {
+            background-color: #f0f8ff;
+            border-color: var(--brand-dark-blue);
+            color: var(--brand-dark-blue);
+        }
+
+        .skill-details-content {
+            border-top: 1px solid #eee;
+            background-color: #fafafa;
+            padding: 30px;
+            display: none; /* Hidden by default */
+        }
+
+        .skill-details-content.expanded {
+            display: block;
+        }
+
+        /* Detail Internal Styles */
+        .prof-meter {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 30px 0;
+            position: relative;
+            padding: 0 40px;
+        }
+        
+        .prof-meter::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 40px;
+            right: 40px;
+            height: 2px;
+            background: #e0e0e0;
+            z-index: 1;
+        }
+        
+        .prof-step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #fff;
+            color: #ccc;
+            border: 2px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            z-index: 2;
+            position: relative;
+            font-size: 14px;
+        }
+        
+        .prof-step.completed {
+            background: var(--status-green);
+            color: white;
+            border-color: var(--status-green);
+        }
+        
+        .prof-step.current {
+            background: var(--brand-dark-blue);
+            color: white;
+            border-color: var(--brand-dark-blue);
+            box-shadow: 0 0 0 4px rgba(0, 24, 113, 0.2);
+        }
+        
+        .prof-step.target {
+            background: white;
+            color: var(--brand-red);
+            border-color: var(--brand-red);
+            border-width: 3px;
+        }
+        
+        .prof-label {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-size: 11px;
+            color: #666;
+            text-align: center;
+        }
+
+        .training-module {
+            background: white;
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand-area">
+            <span class="logo-text">Company Name</span>
+            <span class="app-name">Skill Gap Analyzer</span>
+        </div>
+        <div class="user-controls">
+            <span class="user-name">Ross, Mike (Junior Associate)</span>
+            <a href="#" class="logout-link">Log Out</a>
+        </div>
+    </header>
+
+    <nav class="global-nav">
+        <a href="employee-dashboard.html">Dashboard</a>
+        <a href="employee-upskill-plan.html" class="active">Up-Skill Plan</a>
+        <a href="employee-feedback.html">Manager Feedback</a>
+    </nav>
+
+    <div class="main-container">
+        
+        <h1 class="page-title">My Development Plans</h1>
+        
+        <!-- Alerts -->
+        <div class="alert alert-danger">
+            <span style="font-size: 20px;">&otimes;</span>
+            <div>
+                <strong>Critical Action:</strong> You have <strong>2 current skill gaps</strong> that require immediate attention to meet your project's current requirement.
+            </div>
+        </div>
+
+        <div class="alert alert-warning" style="margin-bottom: 30px;">
+            <span style="font-size: 20px;">&#9888;</span>
+            <div>
+                <strong>Future Planning:</strong> You have <strong>1 future skill gap</strong> identified to meet your project's future requirement.
+            </div>
+        </div>
+
+        <div class="skill-cards-container">
+            
+            <!-- Card 1: Legal Research (Collapsed) -->
+            <div class="skill-card-wrapper">
+                <div id="legal-research-header" class="skill-card-header gap-identified" onclick="toggleCard('details-1', 'btn-1')">
+                    <div class="header-main">
+                        <div>
+                            <h3 class="skill-title">Legal Research</h3>
+                        </div>
+                        <span class="status-badge badge-gap">Gap Identified</span>
+                    </div>
+                    <button id="btn-1" class="toggle-btn" style="display: flex; align-items: center;">
+                        View Plan 
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-left:5px;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                </div>
+                
+                <div id="details-1" class="skill-details-content">
+                    <div style="margin-bottom: 30px;">
+                        <h4 style="margin-top: 0; color: #555;">Gap Analysis</h4>
+                        <div class="prof-meter">
+                            <div class="prof-step completed">1<div class="prof-label">Novice</div></div>
+                            <div class="prof-step current">2<div class="prof-label">Intermediate<br><strong>Current</strong></div></div>
+                            <div class="prof-step target">3<div class="prof-label">Expert<br><strong style="color:var(--brand-red);">Target</strong></div></div>
+                            <div class="prof-step">4<div class="prof-label">Master</div></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 style="color: #555;">Recommended Training</h4>
+                        <div class="training-module">
+                            <div>
+                                <div style="font-weight: bold; color: var(--brand-link);">Advanced Case Law Search Techniques</div>
+                                <div style="font-size: 11px; color: #666;">Provider: LexisNexis Academy | 2h 30m</div>
+                            </div>
+                            <button class="btn btn-primary">Enroll</button>
+                        </div>
+                         <div class="training-module">
+                            <div>
+                                <div style="font-weight: bold; color: var(--brand-link);">Statutory Interpretation Workshop</div>
+                                <div style="font-size: 11px; color: #666;">Provider: Internal Legal Team | 4h</div>
+                            </div>
+                            <button class="btn btn-secondary">Join Waitlist</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 2: Client Negotiation (Collapsed) -->
+            <div class="skill-card-wrapper">
+                <div id="client-negotiation-header" class="skill-card-header gap-identified" onclick="toggleCard('details-2', 'btn-2')">
+                    <div class="header-main">
+                         <div>
+                            <h3 class="skill-title">Client Negotiation</h3>
+                        </div>
+                        <span class="status-badge badge-gap">Gap Identified</span>
+                    </div>
+                    <button id="btn-2" class="toggle-btn" style="display: flex; align-items: center;">
+                        View Plan 
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-left:5px;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                </div>
+                
+                <div id="details-2" class="skill-details-content">
+                    <div style="margin-bottom: 30px;">
+                        <h4 style="margin-top: 0; color: #555;">Gap Analysis</h4>
+                        <div class="prof-meter">
+                            <div class="prof-step current">1<div class="prof-label">Novice<br><strong>Current</strong></div></div>
+                            <div class="prof-step target">2<div class="prof-label">Intermediate<br><strong style="color:var(--brand-red);">Target</strong></div></div>
+                            <div class="prof-step">3<div class="prof-label">Expert</div></div>
+                            <div class="prof-step">4<div class="prof-label">Master</div></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 style="color: #555;">Recommended Training</h4>
+                        <div class="training-module">
+                            <div>
+                                <div style="font-weight: bold; color: var(--brand-link);">Negotiation Fundamentals for Legal Teams</div>
+                                <div style="font-size: 11px; color: #666;">Provider: Global L&D | 2h</div>
+                            </div>
+                            <button class="btn btn-primary">Enroll</button>
+                        </div>
+                         <div class="training-module">
+                            <div>
+                                <div style="font-weight: bold; color: var(--brand-link);">High-Stakes Persuasion Seminar</div>
+                                <div style="font-size: 11px; color: #666;">Provider: External | 1.5h</div>
+                            </div>
+                            <button class="btn btn-secondary">Enroll</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Photographic Memory (Future Gap) -->
+            <div class="skill-card-wrapper">
+                <div id="photographic-memory-header" class="skill-card-header gap-identified" onclick="toggleCard('details-3', 'btn-3')" style="border-left-color: var(--status-amber);">
+                    <div class="header-main">
+                         <div>
+                            <h3 class="skill-title">Photographic Memory</h3>
+                        </div>
+                        <span class="status-badge" style="background: #fff3cd; color: #856404;">Future Gap</span>
+                    </div>
+                    <button id="btn-3" class="toggle-btn" style="display: flex; align-items: center;">
+                        View Plan 
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-left:5px;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                    </button>
+                </div>
+                
+                <div id="details-3" class="skill-details-content">
+                    <div style="margin-bottom: 30px;">
+                        <h4 style="margin-top: 0; color: #555;">Future Gap Analysis</h4>
+                        <div class="prof-meter">
+                            <div class="prof-step completed">1<div class="prof-label">Novice</div></div>
+                            <div class="prof-step completed">2<div class="prof-label">Intermediate</div></div>
+                            <div class="prof-step current">3<div class="prof-label">Expert<br><strong>Current</strong></div></div>
+                            <div class="prof-step target">4<div class="prof-label">Master<br><strong style="color:var(--status-amber);">Future Target</strong></div></div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h4 style="color: #555;">Preparatory Training</h4>
+                        <div class="training-module">
+                            <div>
+                                <div style="font-weight: bold; color: var(--brand-link);">Advanced Cognitive Recall Mastery</div>
+                                <div style="font-size: 11px; color: #666;">Provider: Peak Performance Inst. | 5h</div>
+                            </div>
+                            <button class="btn btn-outline-primary">Interested</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2026 Company Name Corporation. All rights reserved. For Internal Use Only.
+    </footer>
+
+    <script>
+        const ICON_DOWN = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-left:5px;"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+        const ICON_UP = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-left:5px;"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+
+        function toggleCard(detailId, btnId) {
+            const detail = document.getElementById(detailId);
+            const btn = document.getElementById(btnId);
+            
+            if (detail.style.display === 'block' || detail.classList.contains('expanded')) {
+                detail.style.display = 'none';
+                detail.classList.remove('expanded');
+                btn.innerHTML = 'View Plan ' + ICON_DOWN;
+            } else {
+                detail.style.display = 'block';
+                detail.classList.add('expanded');
+                btn.innerHTML = 'Hide Plan ' + ICON_UP;
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const skill = urlParams.get('skill');
+
+            // Collapse all initially
+            document.querySelectorAll('.skill-details-content').forEach(el => {
+                el.classList.remove('expanded');
+                el.style.display = 'none';
+            });
+            document.querySelectorAll('.toggle-btn').forEach(btn => btn.innerHTML = 'View Plan ' + ICON_DOWN);
+
+            if (skill) {
+                let targetId = null;
+                let btnId = null;
+                let headerId = null;
+
+                if (skill === 'legal-research') {
+                    targetId = 'details-1';
+                    btnId = 'btn-1';
+                    headerId = 'legal-research-header';
+                } else if (skill === 'client-negotiation') {
+                    targetId = 'details-2';
+                    btnId = 'btn-2';
+                    headerId = 'client-negotiation-header';
+                } else if (skill === 'photographic-memory') {
+                    targetId = 'details-3';
+                    btnId = 'btn-3';
+                    headerId = 'photographic-memory-header';
+                }
+
+                if (targetId) {
+                    toggleCard(targetId, btnId);
+                    document.getElementById(headerId).scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>

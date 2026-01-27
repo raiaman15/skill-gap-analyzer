@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<!-- 
+  Employee Dashboard Page
+  - Consolidates User Profile and Skill Matrix.
+  - Displays KPI cards for skill tracking.
+  - Lists skills with Current Readiness status derived from CSV data.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Dashboard | Skill Gap Analyzer</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="brand-area">
+            <span class="logo-text">Company Name</span>
+            <span class="app-name">Skill Gap Analyzer</span>
+        </div>
+        <div class="user-controls">
+            <span class="user-name">Ross, Mike (Junior Associate)</span>
+            <a href="#" class="logout-link">Log Out</a>
+        </div>
+    </header>
+
+    <nav class="global-nav">
+        <a href="employee-dashboard.html" class="active">Dashboard</a>
+        <a href="employee-upskill-plan.html">Up-Skill Plan</a>
+        <a href="employee-feedback.html">Manager Feedback</a>
+    </nav>
+
+    <div class="main-container">
+        <h1 class="page-title">Employee Dashboard</h1>
+
+        <!-- Profile Section (Merged) -->
+        <div class="content-panel" style="margin-bottom: 20px; padding: 15px 25px;">
+             <div style="display: flex; align-items: center; gap: 20px;">
+                <div style="width: 50px; height: 50px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #999; font-weight: bold;">MR</div>
+                
+                <div style="flex: 1; display: flex; align-items: baseline; gap: 15px;">
+                    <h2 style="margin: 0; font-size: 20px;">Mike Ross</h2>
+                    <div style="font-size: 13px; color: #666;">
+                        <span style="font-weight: bold; color: #888; text-transform: uppercase; font-size: 11px; margin-right: 5px;">Reporting To:</span> 
+                        Harvey Specter
+                    </div>
+                </div>
+             </div>
+        </div>
+
+        <!-- KPI Cards -->
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <span class="kpi-value">4</span>
+                <span class="kpi-label">Skills Tracked</span>
+            </div>
+            <div class="kpi-card good">
+                <span class="kpi-value">2</span>
+                <span class="kpi-label">On-Target (Current)</span>
+            </div>
+            <div class="kpi-card alert">
+                <span class="kpi-value">2</span>
+                <span class="kpi-label">Current Gaps</span>
+            </div>
+            <div class="kpi-card warn">
+                <span class="kpi-value">3</span>
+                <span class="kpi-label">Future Gaps</span>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 style="margin: 0; font-size: 14px; text-transform: uppercase; color: #555;">Competency Matrix</h3>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Skill Name</th>
+                        <th>Current Level</th>
+                        <th>Expected (Now)</th>
+                        <th>Current Readiness</th>
+                        <th>Future Target</th>
+                        <th style="width: 120px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- From CSV -->
+                    <tr>
+                        <td>
+                            <strong>Photographic Memory</strong>
+                        </td>
+                        <td>Level 3: Expert</td>
+                        <td>Level 3: Expert</td>
+                        <td><span class="status-indicator status-ok">On Target</span></td>
+                        <td>
+                            Level 4: Master
+                            <span style="display:block; font-size:9px; color: #da291c;">(Gap -1)</span>
+                        </td>
+                        <td><a href="employee-upskill-plan.html?skill=photographic-memory" class="btn btn-outline-primary">View Plan</a></td>
+                    </tr>
+                    <!-- Mock Data -->
+                    <tr>
+                        <td>
+                            <strong>Legal Research</strong>
+                        </td>
+                        <td>Level 2: Intermediate</td>
+                        <td>Level 3: Expert</td>
+                        <td><span class="status-indicator status-err">Under-Skilled</span></td>
+                        <td>
+                            Level 3: Expert
+                            <span style="display:block; font-size:9px; color: #da291c;">(Gap -1)</span>
+                        </td>
+                        <td><a href="employee-upskill-plan.html?skill=legal-research" class="btn btn-primary">Start Training</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Client Negotiation</strong>
+                        </td>
+                        <td>Level 1: Novice</td>
+                        <td>Level 2: Intermediate</td>
+                        <td><span class="status-indicator status-err">Under-Skilled</span></td>
+                        <td>
+                            Level 2: Intermediate
+                            <span style="display:block; font-size:9px; color: #da291c;">(Gap -1)</span>
+                        </td>
+                        <td><a href="employee-upskill-plan.html?skill=client-negotiation" class="btn btn-primary">Start Training</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Contract Law</strong>
+                        </td>
+                        <td>Level 4: Master</td>
+                        <td>Level 4: Master</td>
+                        <td><span class="status-indicator status-ok">On Target</span></td>
+                        <td>Level 4: Master</td>
+                        <td><span style="color:#aaa;">-</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2026 Company Name Corporation. All rights reserved. For Internal Use Only.
+    </footer>
+
+</body>
+</html>

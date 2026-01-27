@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<!-- 
+  Manager Dashboard Page
+  - Displays high-level team metrics (Direct Reports, Skill Gaps).
+  - Provides a searchable Team Overview table.
+  - Links to detailed employee views.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manager Dashboard | Skill Gap Analyzer</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="brand-area">
+            <span class="logo-text">Company Name</span>
+            <span class="app-name">Skill Gap Analyzer</span>
+        </div>
+        <div class="user-controls">
+            <span class="user-name">Specter, Harvey (Senior Partner)</span>
+            <a href="#" class="logout-link">Log Out</a>
+        </div>
+    </header>
+
+    <nav class="global-nav">
+        <a href="manager-dashboard.html" class="active">Team Overview</a>
+        <a href="manager-reports.html">Reports</a>
+        <a href="manager-import-data.html">Data Import</a>
+        <a href="manager-settings.html">Settings</a>
+    </nav>
+
+    <div class="main-container">
+        <h1 class="page-title">Manager Dashboard: Legal Dept</h1>
+
+        <!-- KPI Cards -->
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <span class="kpi-value">2</span>
+                <span class="kpi-label">Direct Reports</span>
+            </div>
+            <div class="kpi-card alert">
+                <span class="kpi-value">50%</span>
+                <span class="kpi-label">Team Skill Gaps</span>
+            </div>
+        </div>
+
+        <!-- Team Overview Table -->
+        <div class="content-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                <h3 style="margin: 0; font-size: 14px; text-transform: uppercase; color: #555;">Team Composition</h3>
+                <div>
+                    <input type="text" id="search-input" placeholder="Search by Name or NBK..." style="padding: 5px; font-size: 12px; border: 1px solid #ccc; width: 200px;">
+                    <button class="btn btn-secondary" id="filter-btn">Filter</button>
+                </div>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Employee Name</th>
+                        <th>Role</th>
+                        <th>Function</th>
+                        <th style="text-align: center;">Skills Tracked</th>
+                        <th>Current Readiness</th>
+                        <th>Future Readiness</th>
+                        <th style="width: 100px;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="team-table-body">
+                    <!-- Mike Ross -->
+                    <tr>
+                        <td>
+                            <strong>Ross, Mike</strong>
+                            <div style="font-size: 10px; color: #777;">NBK: mr002</div>
+                        </td>
+                        <td>Junior Associate</td>
+                        <td>Legal Research</td>
+                        <td style="text-align: center;">4</td>
+                        <td><span class="status-indicator status-warn">2 Gaps Identified</span></td>
+                        <td><span class="status-indicator status-err">High Risk</span></td>
+                        <td><a href="manager-employee-details.html" class="btn btn-secondary">Details</a></td>
+                    </tr>
+                    <!-- Donna Paulsen -->
+                    <tr>
+                        <td>
+                            <strong>Paulsen, Donna</strong>
+                            <div style="font-size: 10px; color: #777;">NBK: dp003</div>
+                        </td>
+                        <td>COO</td>
+                        <td>Operations</td>
+                        <td style="text-align: center;">5</td>
+                        <td><span class="status-indicator status-ok">On Target</span></td>
+                        <td><span class="status-indicator status-warn">Medium Risk</span></td>
+                        <td><a href="manager-employee-details.html" class="btn btn-secondary">Details</a></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+    <footer>
+        &copy; 2026 Company Name Corporation. All rights reserved. For Internal Use Only.
+    </footer>
+
+    <!-- Client-side Table Filtering Logic -->
+    <script>
+        const searchInput = document.getElementById('search-input');
+        const filterBtn = document.getElementById('filter-btn');
+        const tableBody = document.getElementById('team-table-body');
+        const rows = tableBody.getElementsByTagName('tr');
+
+        function filterTable() {
+            const filter = searchInput.value.toLowerCase();
+            for (let i = 0; i < rows.length; i++) {
+                const row = rows[i];
+                const text = row.textContent || row.innerText;
+                if (text.toLowerCase().indexOf(filter) > -1) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            }
+        }
+
+        filterBtn.addEventListener('click', filterTable);
+        searchInput.addEventListener('keyup', filterTable);
+    </script>
+</body>
+</html>

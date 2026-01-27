@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<!-- 
+  Manager Employee Details Page
+  - Detailed drill-down view for a specific employee.
+  - Displays skill matrix with current readiness levels.
+  - Allows managers to add and view feedback history (Feedback Timeline).
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Details | Skill Gap Analyzer</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .feedback-timeline {
+            position: relative;
+            padding-left: 30px;
+            margin-top: 20px;
+        }
+
+        .feedback-timeline::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 10px;
+            width: 2px;
+            background: #e0e0e0;
+        }
+
+        .feedback-card {
+            position: relative;
+            background: white;
+            border: 1px solid #dcdcdc;
+            border-radius: 4px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .feedback-card::before {
+            content: '';
+            position: absolute;
+            top: 25px;
+            left: -26px;
+            width: 14px;
+            height: 14px;
+            background: var(--brand-dark-blue);
+            border: 3px solid #f2f2f2;
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .feedback-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+
+        .feedback-author {
+            font-weight: bold;
+            color: var(--brand-dark-blue);
+            font-size: 14px;
+        }
+
+        .feedback-date {
+            font-size: 11px;
+            color: #666;
+        }
+
+        .feedback-content {
+            font-size: 13px;
+            color: #333;
+            line-height: 1.5;
+        }
+
+        .feedback-type-badge {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            background: #e6f4ea;
+            color: var(--status-green);
+            margin-left: 10px;
+            text-transform: uppercase;
+        }
+
+        .type-improvement {
+            background: #fff3cd;
+            color: #856404;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand-area">
+            <span class="logo-text">Company Name</span>
+            <span class="app-name">Skill Gap Analyzer</span>
+        </div>
+        <div class="user-controls">
+            <span class="user-name">Specter, Harvey (Senior Partner)</span>
+            <a href="#" class="logout-link">Log Out</a>
+        </div>
+    </header>
+
+    <nav class="global-nav">
+        <a href="manager-dashboard.html" class="active">Team Overview</a>
+        <a href="manager-reports.html">Reports</a>
+        <a href="manager-import-data.html">Data Import</a>
+        <a href="manager-settings.html">Settings</a>
+    </nav>
+
+    <div class="main-container">
+        <!-- Breadcrumb / Back Navigation -->
+        <div style="margin-bottom: 20px;">
+            <a href="manager-dashboard.html" style="color: var(--brand-link); text-decoration: none; font-size: 12px;">&larr; Back to Team Overview</a>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+            <div>
+                <h1 class="page-title" style="margin-bottom: 5px; border: none;">Ross, Mike</h1>
+                <div style="color: #666; font-size: 14px;">Junior Associate | NBK: mr002</div>
+            </div>
+        </div>
+
+        <!-- Employee Quick Stats -->
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <span class="kpi-value">4</span>
+                <span class="kpi-label">Skills Tracked</span>
+            </div>
+            <div class="kpi-card alert">
+                <span class="kpi-value">2</span>
+                <span class="kpi-label">Current Gap</span>
+            </div>
+            <div class="kpi-card warn">
+                <span class="kpi-value">2</span>
+                <span class="kpi-label">Future Gaps</span>
+            </div>
+        </div>
+
+        <!-- Skills Matrix Table -->
+        <div class="content-panel">
+            <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">Competency Assessment</h3>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>Skill Name</th>
+                        <th>Current Level</th>
+                        <th>Expected (Now)</th>
+                        <th>Current Readiness</th>
+                        <th>Future Target</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- From CSV -->
+                    <tr>
+                        <td>
+                            <strong>Photographic Memory</strong>
+                        </td>
+                        <td>Level 3: Expert</td>
+                        <td>Level 3: Expert</td>
+                        <td><span class="status-indicator status-ok">On Target</span></td>
+                        <td>
+                            Level 4: Master
+                            <span style="display:block; font-size:9px; color: #da291c;">(Gap -1)</span>
+                        </td>
+                        <td><button class="btn btn-secondary" disabled>View Plan</button></td>
+                    </tr>
+                    <!-- Mock Data -->
+                    <tr>
+                        <td>
+                            <strong>Legal Research</strong>
+                        </td>
+                        <td>Level 2: Intermediate</td>
+                        <td>Level 3: Expert</td>
+                        <td><span class="status-indicator status-err">Under-Skilled</span></td>
+                        <td>Level 3: Expert</td>
+                        <td><a href="#" class="btn btn-primary">Assign Plan</a></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <strong>Client Negotiation</strong>
+                        </td>
+                        <td>Level 1: Novice</td>
+                        <td>Level 2: Intermediate</td>
+                        <td><span class="status-indicator status-err">Under-Skilled</span></td>
+                        <td>
+                            Level 2: Intermediate
+                            <span style="display:block; font-size:9px; color: #da291c;">(Gap -1)</span>
+                        </td>
+                        <td><button class="btn btn-secondary" disabled>View Plan</button></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Feedback Section -->
+        <div class="content-panel">
+            <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">Provide Feedback</h3>
+            
+            <div style="margin-bottom: 20px; background: #f9f9f9; padding: 15px; border: 1px solid #eee; border-radius: 4px;">
+                <textarea style="width: 100%; height: 80px; padding: 10px; border: 1px solid #ccc; font-family: inherit; font-size: 13px; margin-bottom: 10px;" placeholder="Enter performance feedback or coaching notes here..."></textarea>
+                <div style="text-align: right; display: flex; justify-content: space-between; align-items: center;">
+                    <select style="padding: 6px; border: 1px solid #ccc; border-radius: 4px; font-size: 12px;">
+                        <option>General</option>
+                        <option>Needs Improvement</option>
+                        <option>Recognition</option>
+                    </select>
+                    <button class="btn btn-primary">Add Feedback</button>
+                </div>
+            </div>
+
+            <h3 style="margin: 20px 0 10px 0; font-size: 14px; text-transform: uppercase; color: #555;">Feedback History</h3>
+            
+            <div class="feedback-timeline">
+                
+                <!-- Feedback 1 -->
+                <div class="feedback-card">
+                    <div class="feedback-header">
+                        <div>
+                            <span class="feedback-author">Harvey Specter</span>
+                            <span class="feedback-type-badge type-improvement">Needs Improvement</span>
+                        </div>
+                        <span class="feedback-date">Jan 25, 2026</span>
+                    </div>
+                    <div class="feedback-content">
+                        Mike, your legal research on the Pearson merger was thorough, but you missed a key precedent in the 2nd circuit. We need to ensure your case law search covers all relevant jurisdictions. I've assigned the advanced search training module.
+                    </div>
+                </div>
+
+                <!-- Feedback 2 -->
+                <div class="feedback-card">
+                    <div class="feedback-header">
+                        <div>
+                            <span class="feedback-author">Harvey Specter</span>
+                            <span class="feedback-type-badge">Recognition</span>
+                        </div>
+                        <span class="feedback-date">Jan 10, 2026</span>
+                    </div>
+                    <div class="feedback-content">
+                        Excellent work on the client negotiation simulation. Your ability to recall specific contract details without checking your notes was impressive and built a lot of trust with the client proxy. Keep leveraging that photographic memory.
+                    </div>
+                </div>
+
+                <!-- Feedback 3 -->
+                <div class="feedback-card">
+                    <div class="feedback-header">
+                        <div>
+                            <span class="feedback-author">Jessica Pearson</span>
+                            <span class="feedback-type-badge">General</span>
+                        </div>
+                        <span class="feedback-date">Dec 15, 2025</span>
+                    </div>
+                    <div class="feedback-content">
+                        Good progress on your onboarding. You are integrating well with the team. Let's focus on polishing your client-facing soft skills in the next quarter.
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2026 Company Name Corporation. All rights reserved. For Internal Use Only.
+    </footer>
+
+</body>
+</html>
