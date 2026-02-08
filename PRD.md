@@ -74,7 +74,7 @@ The system enforces strict role-based data isolation and navigation.
 *   **GDL Level Report:** Enterprise rollups, comparative analytics across DHs, and executive summaries.
 
 ### 4.4. Data Model & Logic
-*   **Source:** CSV-based (defaults to `sample.csv`).
+*   **Source:** CSV-based (defaults to `sample_data.csv`).
 *   **Key Fields:**
     *   **Hierarchy:** `GDLName`, `DHName`, `DLName`, `MgrName`.
     *   **Employee:** `Name`, `NBK` (ID), `Email`, `Role`, `FunctionName`, `PM/IC`.
@@ -95,7 +95,13 @@ The system enforces strict role-based data isolation and navigation.
     *   **Styles:** Global variables for enterprise palette (Deep Blues, Reds) in `styles.css`.
     *   **Interactivity:** Client-side filtering and accordion logic.
     *   **No Frameworks:** Lightweight, dependency-free implementation.
-*   **Data Persistence:** Database (SQL/NoSQL) required for storing Plan Assignments, Feedback, and History (Phase 3). CSV used for initial read-only data.
+*   **Data Persistence:**
+    *   **ORM:** SQLAlchemy (via Flask-SQLAlchemy) as the database abstraction layer. All database access MUST go through SQLAlchemy models — no raw SQL.
+    *   **Local Development / Testing:** SQLite (`sqlite:///myisp.db`). Zero-config, file-based, no external dependencies.
+    *   **Production:** PostgreSQL. The switch requires only changing the `DATABASE_URL` environment variable (e.g., `postgresql://user:pass@host/dbname`). No code changes needed.
+    *   **Migrations:** Flask-Migrate (Alembic) for schema versioning. All schema changes must be captured as migration scripts.
+    *   **Scope:** Database stores Training Plans, Milestones, Feedback, Settings, Import Logs, and Skill History. CSV remains the initial data source for bulk employee/skill imports.
+    *   **Design Constraint:** Code must never use SQLite-specific features (e.g., no `PRAGMA`, no `AUTOINCREMENT` keyword). Use only SQLAlchemy-portable column types and queries.
 
 ## 6. Project Roadmap & Timelines (Total: 4 Weeks)
 
