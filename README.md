@@ -10,7 +10,7 @@ For detailed functional requirements, user personas, architecture, and timelines
 skill-gap-analyzer/
 ├── README.md                # Setup and installation guide
 ├── PRD.md                   # Comprehensive Product Requirement Document
-├── sample.csv               # Sample data with organizational hierarchy
+├── sample_data.csv          # Sample data with organizational hierarchy
 ├── app.py                   # Flask application entry point
 ├── requirements.txt         # Python dependencies
 ├── .gitignore               # Git ignore rules
@@ -68,7 +68,7 @@ skill-gap-analyzer/
 
 ## Customization
 
-*   **Data Source:** Replace `sample.csv` with your organization's data. Ensure the column headers match the specifications in the "Data Model" section of `PRD.md`.
+*   **Data Source:** Replace `sample_data.csv` with your organization's data. Ensure the column headers match the specifications in the "Data Model" section of `PRD.md`.
 *   **Branding:** Update `static/css/styles.css` for color palette changes and `templates/base.html` for logo/footer text.
 *   **Configuration:** Set `debug=False` in `app.py` for production environments.
 

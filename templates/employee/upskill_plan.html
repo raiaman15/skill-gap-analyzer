@@ -13,205 +13,6 @@
 {% endblock %}
 
 {% block extra_css %}
-<style>
-    .alert {
-        padding: 15px 20px;
-        border-radius: 4px;
-        margin-bottom: 15px;
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        font-size: 13px;
-    }
-
-    .alert-danger {
-        background-color: #fce8e6;
-        border: 1px solid #fad2cf;
-        color: var(--status-red);
-    }
-
-    .alert-warning {
-        background-color: #fff3cd;
-        border: 1px solid #ffeeba;
-        color: #856404;
-    }
-
-    .skill-cards-container {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
-
-    .skill-card-wrapper {
-        background: white;
-        border: 1px solid #dcdcdc;
-        border-radius: 4px;
-        overflow: hidden;
-        transition: box-shadow 0.2s;
-    }
-
-    .skill-card-wrapper:hover {
-        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
-    }
-
-    .skill-card-header {
-        padding: 20px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        cursor: pointer;
-        background: #fff;
-        border-left: 5px solid var(--status-red);
-    }
-
-    .skill-card-header.on-target {
-        border-left-color: var(--status-green);
-    }
-
-    .skill-card-header.future-gap {
-        border-left-color: var(--status-amber);
-    }
-
-    .header-main {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-    }
-
-    .skill-title {
-        font-size: 18px;
-        font-weight: bold;
-        color: #333;
-        margin: 0;
-    }
-
-    .status-badge {
-        padding: 5px 10px;
-        border-radius: 12px;
-        font-size: 11px;
-        font-weight: bold;
-        text-transform: uppercase;
-        background: #fce8e6;
-        color: var(--status-red);
-    }
-
-    .status-badge.badge-ok {
-        background: #e6f4ea;
-        color: var(--status-green);
-    }
-
-    .status-badge.badge-future {
-        background: #fff3cd;
-        color: #856404;
-    }
-
-    .toggle-btn {
-        background: white;
-        border: 1px solid var(--brand-link);
-        color: var(--brand-link);
-        border-radius: 4px;
-        padding: 6px 12px;
-        font-size: 11px;
-        font-weight: bold;
-        cursor: pointer;
-        text-transform: uppercase;
-        transition: all 0.2s;
-    }
-
-    .toggle-btn:hover {
-        background-color: #f0f8ff;
-        border-color: var(--brand-dark-blue);
-        color: var(--brand-dark-blue);
-    }
-
-    .skill-details-content {
-        border-top: 1px solid #eee;
-        background-color: #fafafa;
-        padding: 30px;
-        display: none;
-    }
-
-    .skill-details-content.expanded {
-        display: block;
-    }
-
-    .prof-meter {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        margin: 30px 0;
-        position: relative;
-        padding: 0 40px;
-    }
-
-    .prof-meter::before {
-        content: '';
-        position: absolute;
-        top: 20px;
-        left: 40px;
-        right: 40px;
-        height: 2px;
-        background: #e0e0e0;
-        z-index: 1;
-    }
-
-    .prof-step {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background: #fff;
-        color: #ccc;
-        border: 2px solid #ccc;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: bold;
-        z-index: 2;
-        position: relative;
-        font-size: 14px;
-    }
-
-    .prof-step.current {
-        background: var(--brand-dark-blue);
-        color: white;
-        border-color: var(--brand-dark-blue);
-        box-shadow: 0 0 0 4px rgba(0, 24, 113, 0.2);
-    }
-
-    .prof-step.target {
-        background: white;
-        color: var(--brand-red);
-        border-color: var(--brand-red);
-        border-width: 3px;
-    }
-
-    .prof-step.completed {
-        background: var(--status-green);
-        color: white;
-        border-color: var(--status-green);
-    }
-
-    .prof-label {
-        position: absolute;
-        top: 50px;
-        left: 50%;
-        transform: translateX(-50%);
-        white-space: nowrap;
-        font-size: 11px;
-        color: #666;
-        text-align: center;
-    }
-
-    .training-module {
-        background: white;
-        padding: 15px;
-        border: 1px solid #e0e0e0;
-        margin-bottom: 10px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-</style>
 {% endblock %}
 
 {% block content %}
@@ -270,7 +71,7 @@
                     <div class="training-module">
                         <div>
                             <div style="font-weight: bold; color: var(--brand-link);">Training module for {{ skill.name }}</div>
-                            <div style="font-size: 11px; color: #666;">Provider: Internal Learning | 2-4h</div>
+                            <div class="text-small-muted">Provider: Internal Learning | 2-4h</div>
                         </div>
                         <button class="btn btn-primary">Enroll</button>
                     </div>
@@ -310,7 +111,7 @@
                     <div class="training-module">
                         <div>
                             <div style="font-weight: bold; color: var(--brand-link);">Training module for {{ skill.name }}</div>
-                            <div style="font-size: 11px; color: #666;">Provider: Internal Learning | 2-4h</div>
+                            <div class="text-small-muted">Provider: Internal Learning | 2-4h</div>
                         </div>
                         <button class="btn btn-outline-primary">Interested</button>
                     </div>

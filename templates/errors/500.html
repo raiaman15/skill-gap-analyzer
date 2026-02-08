@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Server Error - MyISP{% endblock %}
+
+{% block content %}
+<div class="main-container" style="text-align: center; padding-top: 50px;">
+    <h1 style="color: var(--brand-red); font-size: 48px; margin-bottom: 20px;">500</h1>
+    <h2 style="color: var(--brand-dark-blue); margin-bottom: 30px;">Internal Server Error</h2>
+    <p style="color: #666; font-size: 16px; margin-bottom: 40px;">
+        Something went wrong on our end. Please try again later.
+    </p>
+    <a href="{{ url_for('index') }}" class="btn btn-primary">Return to Home</a>
+</div>
+{% endblock %}

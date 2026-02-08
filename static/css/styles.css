@@ -292,3 +292,655 @@ footer {
     color: #666;
     margin-top: auto;
 }
+
+/* --- Utilities --- */
+.text-center { text-align: center; }
+.text-right { text-align: right; }
+.text-danger { color: var(--status-red); }
+.text-small-muted { font-size: 10px; color: #777; }
+.w-action-col { width: 100px; }
+
+/* --- Shared Dashboard Components (Search & Filter) --- */
+.search-card {
+    background: white;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 25px 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+.search-card-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.search-icon {
+    width: 24px;
+    height: 24px;
+    color: var(--brand-dark-blue); /* Default to brand blue */
+}
+/* Allow overriding icon color if needed, but brand blue is standard */
+
+.search-card-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #333;
+    margin: 0;
+}
+
+.filter-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); /* standardized minmax */
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.filter-field {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.filter-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.filter-input, .filter-select {
+    padding: 10px 14px;
+    font-size: 14px;
+    border: 1px solid #d0d0d0;
+    border-radius: 6px;
+    background: white;
+    transition: all 0.2s;
+}
+
+.filter-input:focus, .filter-select:focus {
+    outline: none;
+    border-color: var(--brand-dark-blue);
+    box-shadow: 0 0 0 3px rgba(0, 24, 113, 0.1);
+}
+
+.filter-input::placeholder {
+    color: #999;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.btn-filter, .btn-clear {
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    background: #f5f5f5;
+    color: #666;
+}
+
+.btn-filter:hover, .btn-clear:hover {
+    background: #e0e0e0;
+}
+
+.expand-icon {
+    font-size: 24px;
+    transition: transform 0.3s;
+    font-weight: bold;
+    color: inherit; /* Inherit from parent header */
+}
+
+.expand-icon.expanded {
+    transform: rotate(90deg);
+}
+
+/* --- Role-Specific Headers & Sections --- */
+
+/* Manager Section (for Delivery Lead View) */
+.manager-section {
+    margin-bottom: 30px;
+}
+
+.manager-header {
+    background: linear-gradient(135deg, #e8f4f8 0%, #d0e8f0 100%);
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s;
+    border: 1px solid #c0d8e0;
+}
+
+.manager-header:hover {
+    background: linear-gradient(135deg, #d0e8f0 0%, #b8d8e8 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transform: translateY(-2px);
+}
+
+.manager-header .manager-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1a5490;
+}
+
+.manager-header .expand-icon {
+    color: #1a5490;
+}
+
+.manager-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.manager-stats {
+    font-size: 13px;
+    color: #666;
+    display: flex;
+    gap: 15px;
+}
+
+.stat-badge {
+    background: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-weight: 600;
+}
+
+.team-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+}
+
+.team-details.expanded {
+    max-height: 2000px;
+    transition: max-height 0.5s ease-in;
+}
+
+.team-table {
+    margin: 0;
+}
+
+/* Delivery Lead Section (for Delivery Head View) */
+.dl-section {
+    margin-bottom: 30px;
+}
+
+.dl-header {
+    background: linear-gradient(135deg, #1a5490 0%, #14447a 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s;
+    border: 1px solid #0e3460;
+}
+
+.dl-header:hover {
+    background: linear-gradient(135deg, #14447a 0%, #0e3460 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+.dl-name {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.dl-stats {
+    font-size: 13px;
+    opacity: 0.9;
+    display: flex;
+    gap: 20px;
+}
+
+.dl-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+}
+
+.dl-content.expanded {
+    max-height: 5000px;
+    transition: max-height 0.5s ease-in;
+}
+
+/* Manager Card (Nested in DL/DH views) */
+.manager-card {
+    background: #e8f4f8; /* Light blue tint */
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #c0d8e0;
+}
+
+/* GDL View overrides for manager card */
+.manager-card.clean-white {
+    background: white;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 12px;
+    border: 1px solid #e0e0e0;
+}
+
+.manager-card-header {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a5490;
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #c0d8e0;
+}
+
+.manager-card.clean-white .manager-card-header {
+    font-size: 14px;
+    font-weight: 600;
+    color: #555;
+    margin-bottom: 10px;
+    padding-bottom: 0;
+    border-bottom: none;
+}
+
+
+/* Delivery Head Section (for GDL View) */
+.dh-section {
+    margin-bottom: 30px;
+}
+
+.dh-header {
+    background: linear-gradient(135deg, #001871 0%, #001560 100%);
+    color: white;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: all 0.3s;
+}
+
+.dh-header:hover {
+    background: linear-gradient(135deg, #001560 0%, #001050 100%);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    transform: translateY(-2px);
+}
+
+.dh-name {
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.dh-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out;
+}
+
+.dh-content.expanded {
+    max-height: 10000px;
+    transition: max-height 0.5s ease-in;
+}
+
+.dl-card {
+    background: #f0f8ff;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #c0d8e8;
+}
+
+.dl-card-header {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a5490;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #c0d8e8;
+}
+
+/* --- Employee Upskill Plan Components --- */
+
+/* Alerts */
+.alert {
+    padding: 15px 20px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 13px;
+}
+
+.alert-danger {
+    background-color: #fce8e6;
+    border: 1px solid #fad2cf;
+    color: var(--status-red);
+}
+
+.alert-warning {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+}
+
+/* Skill Cards */
+.skill-cards-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.skill-card-wrapper {
+    background: white;
+    border: 1px solid #dcdcdc;
+    border-radius: 4px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+}
+
+.skill-card-wrapper:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+}
+
+.skill-card-header {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    background: #fff;
+    border-left: 5px solid var(--status-red);
+}
+
+.skill-card-header.on-target {
+    border-left-color: var(--status-green);
+}
+
+.skill-card-header.future-gap {
+    border-left-color: var(--status-amber);
+}
+
+.header-main {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.skill-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+.status-badge {
+    padding: 5px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: bold;
+    text-transform: uppercase;
+    background: #fce8e6;
+    color: var(--status-red);
+}
+
+.status-badge.badge-ok {
+    background: #e6f4ea;
+    color: var(--status-green);
+}
+
+.status-badge.badge-future {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.toggle-btn {
+    background: white;
+    border: 1px solid var(--brand-link);
+    color: var(--brand-link);
+    border-radius: 4px;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+
+.toggle-btn:hover {
+    background-color: #f0f8ff;
+    border-color: var(--brand-dark-blue);
+    color: var(--brand-dark-blue);
+}
+
+.skill-details-content {
+    border-top: 1px solid #eee;
+    background-color: #fafafa;
+    padding: 30px;
+    display: none;
+}
+
+.skill-details-content.expanded {
+    display: block;
+}
+
+/* Proficiency Meter */
+.prof-meter {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 30px 0;
+    position: relative;
+    padding: 0 40px;
+}
+
+.prof-meter::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 40px;
+    right: 40px;
+    height: 2px;
+    background: #e0e0e0;
+    z-index: 1;
+}
+
+.prof-step {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #fff;
+    color: #ccc;
+    border: 2px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    z-index: 2;
+    position: relative;
+    font-size: 14px;
+}
+
+.prof-step.current {
+    background: var(--brand-dark-blue);
+    color: white;
+    border-color: var(--brand-dark-blue);
+    box-shadow: 0 0 0 4px rgba(0, 24, 113, 0.2);
+}
+
+.prof-step.target {
+    background: white;
+    color: var(--brand-red);
+    border-color: var(--brand-red);
+    border-width: 3px;
+}
+
+.prof-step.completed {
+    background: var(--status-green);
+    color: white;
+    border-color: var(--status-green);
+}
+
+.prof-label {
+    position: absolute;
+    top: 50px;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    font-size: 11px;
+    color: #666;
+    text-align: center;
+}
+
+.training-module {
+    background: white;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* --- Responsive Design --- */
+
+/* Tablet Breakpoint (<= 1024px) */
+@media screen and (max-width: 1024px) {
+    .main-container {
+        padding: 20px;
+    }
+
+    .kpi-row {
+        flex-wrap: wrap;
+    }
+    
+    .kpi-card {
+        flex: 1 1 45%; /* Two cards per row */
+    }
+}
+
+/* Mobile Breakpoint (<= 768px) */
+@media screen and (max-width: 768px) {
+    /* Header Adjustments */
+    header {
+        height: auto;
+        flex-direction: column;
+        padding: 15px;
+        align-items: flex-start;
+    }
+    
+    .brand-area {
+        margin-bottom: 10px;
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .user-controls {
+        width: 100%;
+        text-align: left;
+        margin-top: 10px;
+        border-top: 1px solid #eee;
+        padding-top: 10px;
+    }
+    
+    /* Navigation Adjustments */
+    .global-nav {
+        height: auto;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0;
+    }
+    
+    .global-nav a {
+        width: 100%;
+        height: 40px;
+        border-right: none;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+        padding: 0 15px;
+        box-sizing: border-box;
+    }
+    
+    /* Main Layout */
+    .main-container {
+        padding: 15px;
+    }
+    
+    /* KPI Cards - Stack Vertically */
+    .kpi-row {
+        flex-direction: column;
+    }
+    
+    .kpi-card {
+        flex: 1 1 100%;
+    }
+    
+    /* Filter Grid - Single Column */
+    .filter-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Tables */
+    .table-responsive {
+        border: none;
+    }
+    
+    /* Headers */
+    .manager-header, .dl-header, .dh-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .expand-icon {
+        position: absolute;
+        right: 20px;
+        top: 20px;
+    }
+    
+    .manager-header, .dl-header, .dh-header {
+        position: relative; /* For absolute positioning of icon */
+    }
+
+    /* Skill Card Headers */
+    .skill-card-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+
+    .skill-card-header button {
+        align-self: flex-start;
+    }
+    
+    /* Proficiency Meter */
+    .prof-meter {
+        padding: 0 10px;
+    }
+    
+    .prof-meter::before {
+        left: 20px;
+        right: 20px;
+    }
+}

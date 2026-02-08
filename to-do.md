@@ -28,33 +28,33 @@ The 25 static HTML prototypes are no longer served by Flask. They are dead code.
 ### 0.2 [P0] Fix `sample.csv` naming inconsistency
 PRD §4.4 says "defaults to `sample.csv`" but the file is `sample_data.csv`.
 - [ ] **Option A:** Rename `sample_data.csv` → `sample.csv` and update `app.py:16`
-- [ ] **Option B:** Update PRD §4.4 to say `sample_data.csv` *(chosen — PRD updated)*
-- [ ] Whichever option: ensure the reference is consistent everywhere
+- [x] **Option B:** Update PRD §4.4 to say `sample_data.csv` *(chosen — PRD updated)*
+- [x] Whichever option: ensure the reference is consistent everywhere
 
 ### 0.3 [P1] Remove unused `jsonify` import
-- [ ] Remove `jsonify` from `app.py:6` import line (will re-add when API endpoints are built)
+- [x] Remove `jsonify` from `app.py:6` import line (will re-add when API endpoints are built)
 
 ### 0.4 [P2] Move inline CSS to stylesheet
 ~370 lines of CSS are embedded in templates via `{% block extra_css %}`.
-- [ ] Extract CSS from `delivery_lead/dashboard.html` (lines 17–190) into `styles.css`
-- [ ] Extract CSS from `employee/upskill_plan.html` (lines 16–184) into `styles.css`
-- [ ] Extract CSS from `delivery_head/dashboard.html` into `styles.css`
-- [ ] Extract CSS from `group_delivery_lead/dashboard.html` into `styles.css`
-- [ ] Replace all excessive `style="..."` inline attributes with CSS classes
-- [ ] Audit every template for remaining inline styles and consolidate
+- [x] Extract CSS from `delivery_lead/dashboard.html` (lines 17–190) into `styles.css`
+- [x] Extract CSS from `employee/upskill_plan.html` (lines 16–184) into `styles.css`
+- [x] Extract CSS from `delivery_head/dashboard.html` into `styles.css`
+- [x] Extract CSS from `group_delivery_lead/dashboard.html` into `styles.css`
+- [x] Replace all excessive `style="..."` inline attributes with CSS classes
+- [x] Audit every template for remaining inline styles and consolidate
 
 ### 0.5 [P2] Add proper error pages
-- [ ] Create `templates/errors/404.html` extending `base.html`
-- [ ] Create `templates/errors/500.html` extending `base.html`
-- [ ] Register Flask error handlers in `app.py` for 404 and 500
-- [ ] Replace raw string returns (e.g., `app.py:111`) with `render_template('errors/404.html')`
+- [x] Create `templates/errors/404.html` extending `base.html`
+- [x] Create `templates/errors/500.html` extending `base.html`
+- [x] Register Flask error handlers in `app.py` for 404 and 500
+- [x] Replace raw string returns (e.g., `app.py:111`) with `render_template('errors/404.html')`
 
 ### 0.6 [P2] Add responsive CSS
 PRD §4.1 specifies "Desktop-first responsive design". No `@media` queries exist.
-- [ ] Add `@media` breakpoints to `styles.css` for tablet (≤1024px) and mobile (≤768px)
-- [ ] Make `.kpi-row` stack vertically on small screens
-- [ ] Make `.filter-grid` single-column on small screens
-- [ ] Test all dashboards at each breakpoint
+- [x] Add `@media` breakpoints to `styles.css` for tablet (≤1024px) and mobile (≤768px)
+- [x] Make `.kpi-row` stack vertically on small screens
+- [x] Make `.filter-grid` single-column on small screens
+- [x] Test all dashboards at each breakpoint
 
 ---
 

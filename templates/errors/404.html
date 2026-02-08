@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block title %}Page Not Found - MyISP{% endblock %}
+
+{% block content %}
+<div class="main-container" style="text-align: center; padding-top: 50px;">
+    <h1 style="color: var(--brand-red); font-size: 48px; margin-bottom: 20px;">404</h1>
+    <h2 style="color: var(--brand-dark-blue); margin-bottom: 30px;">Page Not Found</h2>
+    <p style="color: #666; font-size: 16px; margin-bottom: 40px;">
+        The page you are looking for does not exist or has been moved.
+    </p>
+    <a href="{{ url_for('index') }}" class="btn btn-primary">Return to Home</a>
+</div>
+{% endblock %}

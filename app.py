@@ -3,12 +3,21 @@ MyISP Flask Application
 Main application file with routes for all user roles.
 """
 
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request
 import pandas as pd
 import os
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'dev-secret-key-change-in-production'
+
+# Error Handlers
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('errors/404.html'), 404
+
+@app.errorhandler(500)
+def internal_server_error(e):
+    return render_template('errors/500.html'), 500
 
 # Load CSV data
 def load_data():
@@ -137,7 +146,7 @@ def manager_employee_details(nbk):
     """Employee details view for manager."""
     context = get_employee_details_context(nbk)
     if not context:
-        return "Employee not found", 404
+        return render_template('errors/404.html'), 404
 
     return render_template('manager/employee_details.html',
                          manager_name='Harvey Specter',
@@ -216,7 +225,7 @@ def delivery_lead_employee_details(nbk):
     """Employee details view for delivery lead."""
     context = get_employee_details_context(nbk)
     if not context:
-        return "Employee not found", 404
+        return render_template('errors/404.html'), 404
 
     return render_template('delivery_lead/employee_details.html',
                          dl_name='Robert Zane',
@@ -293,7 +302,7 @@ def delivery_head_employee_details(nbk):
     """Employee details view for delivery head."""
     context = get_employee_details_context(nbk)
     if not context:
-        return "Employee not found", 404
+        return render_template('errors/404.html'), 404
 
     return render_template('delivery_head/employee_details.html',
                          dh_name='Jessica Pearson',
@@ -368,7 +377,7 @@ def group_delivery_lead_employee_details(nbk):
     """Employee details view for group delivery lead."""
     context = get_employee_details_context(nbk)
     if not context:
-        return "Employee not found", 404
+        return render_template('errors/404.html'), 404
 
     return render_template('group_delivery_lead/employee_details.html',
                          gdl_name='Daniel Hardman',
@@ -395,12 +404,10 @@ def group_delivery_lead_settings():
 
 @app.route('/employee/dashboard')
 def employee_dashboard():
-    """Employee dashboard showing personal skills."""
-    nbk = request.args.get('nbk', 'mr002')
     emp_df = df_data[df_data['NBK'] == nbk]
 
     if emp_df.empty:
-        return "Employee not found", 404
+        return render_template('errors/404.html'), 404
 
     emp_info = emp_df.iloc[0]
     skills = []
@@ -434,7 +441,7 @@ def employee_feedback():
     emp_df = df_data[df_data['NBK'] == nbk]
 
     if emp_df.empty:
-        return "Employee not found", 404
+        return render_template('errors/404.html'), 404
 
     emp_info = emp_df.iloc[0]
     return render_template('employee/feedback.html', employee=emp_info.to_dict())
@@ -446,7 +453,7 @@ def employee_upskill_plan():
     emp_df = df_data[df_data['NBK'] == nbk]
 
     if emp_df.empty:
-        return "Employee not found", 404
+        return render_template('errors/404.html'), 404
 
     emp_info = emp_df.iloc[0]
     # Get skills with current gaps
