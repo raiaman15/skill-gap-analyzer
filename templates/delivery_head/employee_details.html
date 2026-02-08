@@ -6,10 +6,10 @@
 
 {% block nav %}
 <nav class="global-nav">
-    <a href="{{ url_for('delivery_head_dashboard', dh=dh_name) }}">Enterprise Overview</a>
-    <a href="{{ url_for('delivery_head_reports', dh=dh_name) }}">Reports</a>
-    <a href="{{ url_for('delivery_head_import_data') }}">Data Import</a>
-    <a href="{{ url_for('delivery_head_settings', dh=dh_name) }}">Settings</a>
+    <a href="{{ url_for('delivery_head.dashboard', dh=dh_name) }}">Enterprise Overview</a>
+    <a href="{{ url_for('delivery_head.reports', dh=dh_name) }}">Reports</a>
+    <a href="{{ url_for('delivery_head.import_data') }}">Data Import</a>
+    <a href="{{ url_for('delivery_head.settings', dh=dh_name) }}">Settings</a>
 </nav>
 {% endblock %}
 
@@ -119,7 +119,7 @@
 {% block content %}
 <div class="main-container">
     <div style="margin-bottom: 20px;">
-        <a href="{{ url_for('delivery_head_dashboard', dh=dh_name) }}" style="color: var(--brand-link); text-decoration: none; font-size: 12px;">&larr; Back to Enterprise Overview</a>
+        <a href="{{ url_for('delivery_head.dashboard', dh=dh_name) }}" style="color: var(--brand-link); text-decoration: none; font-size: 12px;">&larr; Back to Enterprise Overview</a>
     </div>
 
     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">

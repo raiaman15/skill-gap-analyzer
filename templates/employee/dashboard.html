@@ -6,9 +6,9 @@
 
 {% block nav %}
 <nav class="global-nav">
-    <a href="{{ url_for('employee_dashboard', nbk=employee.NBK) }}" class="active">Dashboard</a>
-    <a href="{{ url_for('employee_upskill_plan', nbk=employee.NBK) }}">Up-Skill Plan</a>
-    <a href="{{ url_for('employee_feedback', nbk=employee.NBK) }}">Manager Feedback</a>
+    <a href="{{ url_for('employee.dashboard', nbk=employee.NBK) }}" class="active">Dashboard</a>
+    <a href="{{ url_for('employee.upskill_plan', nbk=employee.NBK) }}">Up-Skill Plan</a>
+    <a href="{{ url_for('employee.feedback', nbk=employee.NBK) }}">Manager Feedback</a>
 </nav>
 {% endblock %}
 
@@ -93,7 +93,7 @@
                     </td>
                     <td>
                         {% if skill.gap_current == 'Under-Skilled' %}
-                        <a href="{{ url_for('employee_upskill_plan', nbk=employee.NBK) }}" class="btn btn-primary">Start Training</a>
+                        <a href="{{ url_for('employee.upskill_plan', nbk=employee.NBK) }}" class="btn btn-primary">Start Training</a>
                         {% else %}
                         <span style="color:#aaa;">-</span>
                         {% endif %}

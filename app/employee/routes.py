@@ -1,7 +1,6 @@
-from flask import Blueprint, render_template, request
+from flask import render_template, request
+from app.employee import bp
 from app.models import Employee, Skill
-
-bp = Blueprint('employee', __name__, url_prefix='/employee')
 
 def get_employee_dict(emp):
     """Helper to map Employee object to dict with capitalized keys for templates."""

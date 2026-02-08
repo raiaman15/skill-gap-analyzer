@@ -1,7 +1,6 @@
-from flask import Blueprint, render_template, request
+from flask import render_template, request
+from app.manager import bp
 from app.utils import get_employees_by_manager, get_employee_summary, get_employee_details_context
-
-bp = Blueprint('manager', __name__, url_prefix='/manager')
 
 @bp.route('/dashboard')
 def dashboard():

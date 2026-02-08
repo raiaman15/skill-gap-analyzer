@@ -6,10 +6,10 @@
 
 {% block nav %}
 <nav class="global-nav">
-    <a href="{{ url_for('group_delivery_lead_dashboard', gdl=gdl_name) }}" class="active">Global Overview</a>
-    <a href="{{ url_for('group_delivery_lead_reports') }}">Reports</a>
-    <a href="{{ url_for('group_delivery_lead_import_data') }}">Data Import</a>
-    <a href="{{ url_for('group_delivery_lead_settings') }}">Settings</a>
+    <a href="{{ url_for('group_delivery_lead.dashboard', gdl=gdl_name) }}" class="active">Global Overview</a>
+    <a href="{{ url_for('group_delivery_lead.reports') }}">Reports</a>
+    <a href="{{ url_for('group_delivery_lead.import_data') }}">Data Import</a>
+    <a href="{{ url_for('group_delivery_lead.settings') }}">Settings</a>
 </nav>
 {% endblock %}
 
@@ -193,8 +193,7 @@
                                     <span class="status-indicator status-warn">{{ emp.future_gaps }}</span>
                                     {% endif %}
                                 </td>
-                                <td><a href="{{ url_for('group_delivery_lead_employee_details', nbk=emp.nbk) }}" class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;">View</a></td>
-                            </tr>
+                                                                                    <td><a href="{{ url_for('group_delivery_lead.employee_details', nbk=emp.nbk) }}" class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;">View</a></td>                            </tr>
                             {% endfor %}
                         </tbody>
                     </table>

@@ -6,10 +6,10 @@
 
 {% block nav %}
 <nav class="global-nav">
-    <a href="{{ url_for('delivery_lead_dashboard', dl='Robert Zane') }}">Organization Overview</a>
-    <a href="{{ url_for('delivery_lead_reports', dl='Robert Zane') }}">Reports</a>
-    <a href="{{ url_for('delivery_lead_import_data') }}">Data Import</a>
-    <a href="{{ url_for('delivery_lead_settings', dl='Robert Zane') }}">Settings</a>
+    <a href="{{ url_for('delivery_lead.dashboard', dl='Robert Zane') }}">Organization Overview</a>
+    <a href="{{ url_for('delivery_lead.reports', dl='Robert Zane') }}">Reports</a>
+    <a href="{{ url_for('delivery_lead.import_data') }}">Data Import</a>
+    <a href="{{ url_for('delivery_lead.settings', dl='Robert Zane') }}">Settings</a>
 </nav>
 {% endblock %}
 
@@ -119,7 +119,7 @@
 {% block content %}
 <div class="main-container">
     <div style="margin-bottom: 20px;">
-        <a href="{{ url_for('delivery_lead_dashboard', dl='Robert Zane') }}" style="color: var(--brand-link); text-decoration: none; font-size: 12px;">&larr; Back to Organization Overview</a>
+        <a href="{{ url_for('delivery_lead.dashboard', dl='Robert Zane') }}" style="color: var(--brand-link); text-decoration: none; font-size: 12px;">&larr; Back to Organization Overview</a>
     </div>
 
     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">

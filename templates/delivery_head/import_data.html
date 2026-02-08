@@ -6,10 +6,10 @@
 
 {% block nav %}
 <nav class="global-nav">
-    <a href="{{ url_for('delivery_head_dashboard', dh='Jessica Pearson') }}">Enterprise Overview</a>
-    <a href="{{ url_for('delivery_head_reports', dh='Jessica Pearson') }}">Reports</a>
-    <a href="{{ url_for('delivery_head_import_data') }}" class="active">Data Import</a>
-    <a href="{{ url_for('delivery_head_settings', dh='Jessica Pearson') }}">Settings</a>
+    <a href="{{ url_for('delivery_head.dashboard', dh='Jessica Pearson') }}">Enterprise Overview</a>
+    <a href="{{ url_for('delivery_head.reports', dh='Jessica Pearson') }}">Reports</a>
+    <a href="{{ url_for('delivery_head.import_data') }}" class="active">Data Import</a>
+    <a href="{{ url_for('delivery_head.settings', dh='Jessica Pearson') }}">Settings</a>
 </nav>
 {% endblock %}
 

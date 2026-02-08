@@ -1,8 +1,7 @@
-from flask import Blueprint, render_template, request
+from flask import render_template, request
+from app.delivery_lead import bp
 from app.utils import get_managers_by_dl, get_employees_by_manager, get_employee_summary, get_employee_details_context
 from app.models import Employee, Skill
-
-bp = Blueprint('delivery_lead', __name__, url_prefix='/delivery-lead')
 
 @bp.route('/dashboard')
 def dashboard():

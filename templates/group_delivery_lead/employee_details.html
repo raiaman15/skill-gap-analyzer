@@ -6,10 +6,10 @@
 
 {% block nav %}
 <nav class="global-nav">
-    <a href="{{ url_for('group_delivery_lead_dashboard', gdl=gdl_name) }}">Global Overview</a>
-    <a href="{{ url_for('group_delivery_lead_reports') }}">Reports</a>
-    <a href="{{ url_for('group_delivery_lead_import_data') }}">Data Import</a>
-    <a href="{{ url_for('group_delivery_lead_settings') }}">Settings</a>
+    <a href="{{ url_for('group_delivery_lead.dashboard', gdl=gdl_name) }}">Global Overview</a>
+    <a href="{{ url_for('group_delivery_lead.reports') }}">Reports</a>
+    <a href="{{ url_for('group_delivery_lead.import_data') }}">Data Import</a>
+    <a href="{{ url_for('group_delivery_lead.settings') }}">Settings</a>
 </nav>
 {% endblock %}
 
@@ -119,7 +119,7 @@
 {% block content %}
 <div class="main-container">
     <div style="margin-bottom: 20px;">
-        <a href="{{ url_for('group_delivery_lead_dashboard', gdl=gdl_name) }}" style="color: var(--brand-link); text-decoration: none; font-size: 12px;">&larr; Back to Global Overview</a>
+        <a href="{{ url_for('group_delivery_lead.dashboard', gdl=gdl_name) }}" style="color: var(--brand-link); text-decoration: none; font-size: 12px;">&larr; Back to Global Overview</a>
     </div>
 
     <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">

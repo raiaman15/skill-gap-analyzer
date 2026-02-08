@@ -6,10 +6,10 @@
 
 {% block nav %}
 <nav class="global-nav">
-    <a href="{{ url_for('manager_dashboard', manager=manager_name) }}">Team Overview</a>
-    <a href="{{ url_for('manager_reports', manager=manager_name) }}">Reports</a>
-    <a href="{{ url_for('manager_import_data') }}">Data Import</a>
-    <a href="{{ url_for('manager_settings', manager=manager_name) }}" class="active">Settings</a>
+    <a href="{{ url_for('manager.dashboard', manager=manager_name) }}">Team Overview</a>
+    <a href="{{ url_for('manager.reports', manager=manager_name) }}">Reports</a>
+    <a href="{{ url_for('manager.import_data') }}">Data Import</a>
+    <a href="{{ url_for('manager.settings', manager=manager_name) }}" class="active">Settings</a>
 </nav>
 {% endblock %}
 

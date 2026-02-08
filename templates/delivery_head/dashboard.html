@@ -6,10 +6,10 @@
 
 {% block nav %}
 <nav class="global-nav">
-    <a href="{{ url_for('delivery_head_dashboard', dh=dh_name) }}" class="active">Enterprise Overview</a>
-    <a href="{{ url_for('delivery_head_reports', dh=dh_name) }}">Reports</a>
-    <a href="{{ url_for('delivery_head_import_data') }}">Data Import</a>
-    <a href="{{ url_for('delivery_head_settings', dh=dh_name) }}">Settings</a>
+    <a href="{{ url_for('delivery_head.dashboard', dh=dh_name) }}" class="active">Enterprise Overview</a>
+    <a href="{{ url_for('delivery_head.reports', dh=dh_name) }}">Reports</a>
+    <a href="{{ url_for('delivery_head.import_data') }}">Data Import</a>
+    <a href="{{ url_for('delivery_head.settings', dh=dh_name) }}">Settings</a>
 </nav>
 {% endblock %}
 
@@ -151,8 +151,7 @@
                                 <span class="status-indicator status-warn">{{ emp.future_gaps }} Gaps</span>
                                 {% endif %}
                             </td>
-                            <td><a href="{{ url_for('delivery_head_employee_details', nbk=emp.nbk) }}" class="btn btn-secondary">View</a></td>
-                        </tr>
+                                                                        <td><a href="{{ url_for('delivery_head.employee_details', nbk=emp.nbk) }}" class="btn btn-secondary">View</a></td>                        </tr>
                         {% endfor %}
                     </tbody>
                 </table>

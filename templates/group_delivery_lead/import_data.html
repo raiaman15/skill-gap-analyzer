@@ -6,10 +6,10 @@
 
 {% block nav %}
 <nav class="global-nav">
-    <a href="{{ url_for('group_delivery_lead_dashboard', gdl='Daniel Hardman') }}">Global Overview</a>
-    <a href="{{ url_for('group_delivery_lead_reports') }}">Reports</a>
-    <a href="{{ url_for('group_delivery_lead_import_data') }}" class="active">Data Import</a>
-    <a href="{{ url_for('group_delivery_lead_settings') }}">Settings</a>
+    <a href="{{ url_for('group_delivery_lead.dashboard', gdl='Daniel Hardman') }}">Global Overview</a>
+    <a href="{{ url_for('group_delivery_lead.reports') }}">Reports</a>
+    <a href="{{ url_for('group_delivery_lead.import_data') }}" class="active">Data Import</a>
+    <a href="{{ url_for('group_delivery_lead.settings') }}">Settings</a>
 </nav>
 {% endblock %}
 
