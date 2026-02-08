@@ -1,12 +1,23 @@
 from flask import Flask, render_template
+from flask_sqlalchemy import SQLAlchemy
+from flask_migrate import Migrate
+from app.config import Config
 
-def create_app(config_class=None):
+db = SQLAlchemy()
+migrate = Migrate()
+
+def create_app(config_class=Config):
     app = Flask(__name__, 
                 template_folder='../templates', 
                 static_folder='../static')
     
-    app.config['SECRET_KEY'] = 'dev-secret-key-change-in-production'
-    # app.config.from_object(config_class) # If using config class
+    app.config.from_object(config_class)
+
+    db.init_app(app)
+    migrate.init_app(app, db)
+    
+    # Import models so migration script detects them
+    from app import models
 
     # Register Blueprints
     from app.main import bp as main_bp

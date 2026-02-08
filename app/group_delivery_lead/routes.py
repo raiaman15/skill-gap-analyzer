@@ -21,11 +21,11 @@ def dashboard():
             managers_data = []
 
             for mgr in manager_names:
-                emp_df = get_employees_by_manager(mgr)
-                employees = get_employee_summary(emp_df)
+                emp_list = get_employees_by_manager(mgr)
+                employees_summary = get_employee_summary(emp_list)
                 managers_data.append({
                     'name': mgr,
-                    'employees': employees
+                    'employees': employees_summary
                 })
 
             dls_data.append({

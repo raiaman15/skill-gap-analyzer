@@ -62,8 +62,8 @@ PRD §4.1 specifies "Desktop-first responsive design". No `@media` queries exist
 
 ### 1.1 [P0] Install and configure SQLAlchemy ORM
 Use SQLAlchemy so the database engine can be swapped between SQLite (local) and PostgreSQL (production) by changing a single connection string.
-- [ ] Add `Flask-SQLAlchemy>=3.1.0` and `Flask-Migrate>=4.0.0` to `requirements.txt`
-- [ ] Create `config.py` with:
+- [x] Add `Flask-SQLAlchemy>=3.1.0` and `Flask-Migrate>=4.0.0` to `requirements.txt`
+- [x] Create `config.py` with:
   ```python
   import os
   class Config:
@@ -71,17 +71,17 @@ Use SQLAlchemy so the database engine can be swapped between SQLite (local) and 
       SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL', 'sqlite:///myisp.db')
       SQLALCHEMY_TRACK_MODIFICATIONS = False
   ```
-- [ ] Update `app.py` to use `app.config.from_object(Config)`
-- [ ] Initialize `db = SQLAlchemy(app)` and `migrate = Migrate(app, db)`
-- [ ] Remove hardcoded `SECRET_KEY` from `app.py:11`
-- [ ] Add `*.db` and `*.sqlite` to `.gitignore` (already done)
-- [ ] Create `env.example` file documenting required environment variables
-- [ ] Verify the app starts with SQLite by default (`sqlite:///myisp.db`)
+- [x] Update `app.py` to use `app.config.from_object(Config)`
+- [x] Initialize `db = SQLAlchemy(app)` and `migrate = Migrate(app, db)`
+- [x] Remove hardcoded `SECRET_KEY` from `app.py:11`
+- [x] Add `*.db` and `*.sqlite` to `.gitignore` (already done)
+- [x] Create `env.example` file documenting required environment variables
+- [x] Verify the app starts with SQLite by default (`sqlite:///myisp.db`)
 - [ ] Verify that changing `DATABASE_URL` to a PostgreSQL connection string works
 
 ### 1.2 [P0] Define database models
 Create `models.py` with the following ORM models:
-- [ ] **Employee** model:
+- [x] **Employee** model:
   - `nbk` (PK, String) — unique employee ID
   - `name` (String, not null)
   - `email` (String)
@@ -92,7 +92,7 @@ Create `models.py` with the following ORM models:
   - `dl_name` (String)
   - `dh_name` (String)
   - `gdl_name` (String)
-- [ ] **Skill** model:
+- [x] **Skill** model:
   - `id` (PK, Integer, auto-increment)
   - `employee_nbk` (FK → Employee.nbk)
   - `skill_name` (String)
@@ -104,7 +104,7 @@ Create `models.py` with the following ORM models:
   - `expected_future_prof` (String)
   - `gap_future` (String)
   - `last_updated` (DateTime)
-- [ ] **TrainingPlan** model:
+- [x] **TrainingPlan** model:
   - `id` (PK, Integer, auto-increment)
   - `employee_nbk` (FK → Employee.nbk)
   - `skill_name` (String)
@@ -115,7 +115,7 @@ Create `models.py` with the following ORM models:
   - `deadline` (Date)
   - `completion_date` (DateTime, nullable)
   - `notes` (Text, nullable)
-- [ ] **Milestone** model:
+- [x] **Milestone** model:
   - `id` (PK, Integer, auto-increment)
   - `training_plan_id` (FK → TrainingPlan.id)
   - `title` (String) — e.g., "Level 1 → Level 2"
@@ -123,14 +123,14 @@ Create `models.py` with the following ORM models:
   - `deadline` (Date)
   - `completed` (Boolean, default False)
   - `completed_date` (DateTime, nullable)
-- [ ] **Feedback** model:
+- [x] **Feedback** model:
   - `id` (PK, Integer, auto-increment)
   - `employee_nbk` (FK → Employee.nbk)
   - `given_by` (String) — manager name
   - `feedback_type` (String) — "Recognition", "Improvement", "General"
   - `content` (Text)
   - `created_at` (DateTime, default utcnow)
-- [ ] **DataImportLog** model:
+- [x] **DataImportLog** model:
   - `id` (PK, Integer, auto-increment)
   - `imported_by` (String)
   - `filename` (String)
@@ -138,7 +138,7 @@ Create `models.py` with the following ORM models:
   - `status` (String) — "Success", "Failed", "Partial"
   - `imported_at` (DateTime, default utcnow)
   - `error_message` (Text, nullable)
-- [ ] **Setting** model:
+- [x] **Setting** model:
   - `id` (PK, Integer, auto-increment)
   - `user_name` (String)
   - `role` (String)
@@ -146,35 +146,35 @@ Create `models.py` with the following ORM models:
   - `updated_at` (DateTime)
 
 ### 1.3 [P0] Create initial migration and seed script
-- [ ] Run `flask db init` to create migrations directory
-- [ ] Run `flask db migrate -m "initial schema"` to generate migration
-- [ ] Run `flask db upgrade` to create tables
-- [ ] Create `seed.py` script that:
+- [x] Run `flask db init` to create migrations directory
+- [x] Run `flask db migrate -m "initial schema"` to generate migration
+- [x] Run `flask db upgrade` to create tables
+- [x] Create `seed.py` script that:
   - Reads `sample_data.csv` via Pandas
   - Populates Employee and Skill tables
   - Reads `sample_trainings.csv` and stores training resource links
-- [ ] Run seed script and verify data is in SQLite
+- [x] Run seed script and verify data is in SQLite
 
 ### 1.4 [P1] Create a TrainingResource model and load `sample_trainings.csv`
 The file exists but is never used.
-- [ ] **TrainingResource** model:
+- [x] **TrainingResource** model:
   - `id` (PK, Integer, auto-increment)
   - `skill_name` (String)
   - `tier` (String) — "New to Role", "In Role Development", "Mastery"
   - `resource_url_1` (String)
   - `resource_url_2` (String)
-- [ ] Load data from `sample_trainings.csv` in the seed script
+- [x] Load data from `sample_trainings.csv` in the seed script
 - [ ] Update upskill plan template to show real training links instead of "Training module for {skill_name}"
 
 ### 1.5 [P1] Refactor `app.py` to use ORM queries instead of Pandas
-- [ ] Replace `load_data()` and global `df_data` with SQLAlchemy queries
-- [ ] Replace `get_employees_by_manager()` with `Employee.query.filter_by(manager_name=...)`
-- [ ] Replace `get_managers_by_dl()` with distinct query on Employee table
-- [ ] Replace `get_dls_by_dh()` with distinct query on Employee table
-- [ ] Replace `get_dhs_by_gdl()` with distinct query on Employee table
-- [ ] Replace `get_employee_summary()` with a query + aggregation method on the model
-- [ ] Keep Pandas as a dependency only for CSV import processing
-- [ ] Fix the DL dashboard bug: `app.py:179` incorrectly uses first employee's NBK/Role for the manager card
+- [x] Replace `load_data()` and global `df_data` with SQLAlchemy queries
+- [x] Replace `get_employees_by_manager()` with `Employee.query.filter_by(manager_name=...)`
+- [x] Replace `get_managers_by_dl()` with distinct query on Employee table
+- [x] Replace `get_dls_by_dh()` with distinct query on Employee table
+- [x] Replace `get_dhs_by_gdl()` with distinct query on Employee table
+- [x] Replace `get_employee_summary()` with a query + aggregation method on the model
+- [x] Keep Pandas as a dependency only for CSV import processing
+- [x] Fix the DL dashboard bug: `app.py:179` incorrectly uses first employee's NBK/Role for the manager card
 
 ---
 

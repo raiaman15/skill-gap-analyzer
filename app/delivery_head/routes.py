@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request
-from app.utils import get_data, get_dls_by_dh, get_managers_by_dl, get_employees_by_manager, get_employee_summary, get_employee_details_context
+from app.utils import get_dls_by_dh, get_managers_by_dl, get_employees_by_manager, get_employee_summary, get_employee_details_context
+from app.models import Employee
 
 bp = Blueprint('delivery_head', __name__, url_prefix='/delivery-head')
 
@@ -18,13 +19,13 @@ def dashboard():
         managers_data = []
 
         for mgr in manager_names:
-            emp_df = get_employees_by_manager(mgr)
-            employees = get_employee_summary(emp_df)
+            emp_list = get_employees_by_manager(mgr)
+            employees_summary = get_employee_summary(emp_list)
 
             managers_data.append({
                 'name': mgr,
-                'employees': employees,
-                'total_reports': len(employees)
+                'employees': employees_summary,
+                'total_reports': len(employees_summary)
             })
 
         dls_data.append({
@@ -53,12 +54,12 @@ def employee_details(nbk):
 def reports():
     """Delivery head reports view."""
     dh_name = request.args.get('dh', 'Jessica Pearson')
-    df_data = get_data()
-    dh_df = df_data[df_data['DHName'] == dh_name]
+    
+    total_employees = Employee.query.filter_by(dh_name=dh_name).count()
 
     return render_template('delivery_head/reports.html',
                          dh_name=dh_name,
-                         total_employees=len(dh_df['NBK'].unique()))
+                         total_employees=total_employees)
 
 @bp.route('/import-data')
 def import_data():

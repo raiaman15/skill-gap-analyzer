@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request
-from app.utils import get_data, get_managers_by_dl, get_employees_by_manager, get_employee_summary, get_employee_details_context
+from app.utils import get_managers_by_dl, get_employees_by_manager, get_employee_summary, get_employee_details_context
+from app.models import Employee, Skill
 
 bp = Blueprint('delivery_lead', __name__, url_prefix='/delivery-lead')
 
@@ -14,16 +15,16 @@ def dashboard():
     # Build hierarchical data
     managers_data = []
     for mgr in manager_names:
-        emp_df = get_employees_by_manager(mgr)
-        employees = get_employee_summary(emp_df)
+        emp_list = get_employees_by_manager(mgr)
+        employees_summary = get_employee_summary(emp_list)
 
         managers_data.append({
             'name': mgr,
-            'nbk': emp_df.iloc[0]['NBK'] if not emp_df.empty else '',
-            'role': emp_df.iloc[0]['Role'] if not emp_df.empty else '',
-            'employees': employees,
-            'total_reports': len(employees),
-            'total_gaps': sum(e['current_gaps'] for e in employees)
+            'nbk': emp_list[0].nbk if emp_list else '',
+            'role': emp_list[0].role if emp_list else '',
+            'employees': employees_summary,
+            'total_reports': len(employees_summary),
+            'total_gaps': sum(e['current_gaps'] for e in employees_summary)
         })
 
     # Apply filters
@@ -54,12 +55,12 @@ def employee_details(nbk):
 def reports():
     """Delivery lead reports view."""
     dl_name = request.args.get('dl', 'Robert Zane')
-    df_data = get_data()
-    dl_df = df_data[df_data['DLName'] == dl_name]
-
-    total_employees = len(dl_df['NBK'].unique())
-    total_skills = len(dl_df)
-    current_gaps = (dl_df['GAP-Current'] == 'Under-Skilled').sum()
+    
+    employees = Employee.query.filter_by(dl_name=dl_name).all()
+    total_employees = len(employees)
+    
+    total_skills = Skill.query.join(Employee).filter(Employee.dl_name == dl_name).count()
+    current_gaps = Skill.query.join(Employee).filter(Employee.dl_name == dl_name, Skill.gap_current == 'Under-Skilled').count()
 
     return render_template('delivery_lead/reports.html',
                          dl_name=dl_name,

@@ -51,12 +51,18 @@ skill-gap-analyzer/
     pip install -r requirements.txt
     ```
 
-4.  **Run the application:**
+4.  **Initialize the database:**
+    ```bash
+    flask db upgrade
+    python seed.py
+    ```
+
+5.  **Run the application:**
     ```bash
     python app.py
     ```
 
-5.  **Access the application:**
+6.  **Access the application:**
     Open your browser and navigate to `http://localhost:8080/`. You will see a landing page to select a role for demonstration purposes.
 
     **Direct Role Links (for testing with sample data):**

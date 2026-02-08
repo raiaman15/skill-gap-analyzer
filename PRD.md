@@ -74,11 +74,12 @@ The system enforces strict role-based data isolation and navigation.
 *   **GDL Level Report:** Enterprise rollups, comparative analytics across DHs, and executive summaries.
 
 ### 4.4. Data Model & Logic
-*   **Source:** CSV-based (defaults to `sample_data.csv`).
+*   **Source:** CSV-based (defaults to `sample_data.csv`). `sample_trainings.csv` for training resources.
 *   **Key Fields:**
     *   **Hierarchy:** `GDLName`, `DHName`, `DLName`, `MgrName`.
     *   **Employee:** `Name`, `NBK` (ID), `Email`, `Role`, `FunctionName`, `PM/IC`.
     *   **Skill:** `SkillName`, `SkillType`, `EmpSkillCategory`, `User Proficiency`, `Expected Current Prof`, `GAP-Current`, `Expected Future Prof`, `GAP-Future`.
+    *   **Training Resource:** `SkillName` (maps to Learning Need), `Tier` (New to Role, In Role Development, Mastery), `Resource URL 1`, `Resource URL 2`.
 *   **Gap Logic:**
     *   **On-Target:** `User Proficiency` >= `Expected Current Prof`.
     *   **Under-Skilled:** `User Proficiency` < `Expected Current Prof`.
