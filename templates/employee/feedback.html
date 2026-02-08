@@ -1,0 +1,126 @@
+{% extends "base.html" %}
+
+{% block title %}Manager Feedback - MyISP{% endblock %}
+
+{% block user_name %}{{ employee.Name }} ({{ employee.Role }}){% endblock %}
+
+{% block nav %}
+<nav class="global-nav">
+    <a href="{{ url_for('employee_dashboard', nbk=employee.NBK) }}">Dashboard</a>
+    <a href="{{ url_for('employee_upskill_plan', nbk=employee.NBK) }}">Up-Skill Plan</a>
+    <a href="{{ url_for('employee_feedback', nbk=employee.NBK) }}" class="active">Manager Feedback</a>
+</nav>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .feedback-timeline {
+        position: relative;
+        padding-left: 30px;
+        margin-top: 20px;
+    }
+
+    .feedback-timeline::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 10px;
+        width: 2px;
+        background: #e0e0e0;
+    }
+
+    .feedback-card {
+        position: relative;
+        background: white;
+        border: 1px solid #dcdcdc;
+        border-radius: 4px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .feedback-card::before {
+        content: '';
+        position: absolute;
+        top: 25px;
+        left: -26px;
+        width: 14px;
+        height: 14px;
+        background: var(--brand-dark-blue);
+        border: 3px solid #f2f2f2;
+        border-radius: 50%;
+        z-index: 1;
+    }
+
+    .feedback-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    .feedback-author {
+        font-weight: bold;
+        color: var(--brand-dark-blue);
+        font-size: 14px;
+    }
+
+    .feedback-date {
+        font-size: 11px;
+        color: #666;
+    }
+
+    .feedback-content {
+        font-size: 13px;
+        color: #333;
+        line-height: 1.5;
+    }
+
+    .feedback-type-badge {
+        font-size: 10px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        background: #e6f4ea;
+        color: var(--status-green);
+        margin-left: 10px;
+        text-transform: uppercase;
+    }
+
+    .type-improvement {
+        background: #fff3cd;
+        color: #856404;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <h1 class="page-title">Performance Feedback History</h1>
+
+    <div class="content-panel" style="background: transparent; border: none; box-shadow: none; padding: 0;">
+        <div class="feedback-timeline">
+
+            <div class="feedback-card">
+                <div class="feedback-header">
+                    <div>
+                        <span class="feedback-author">{{ employee.MgrName }}</span>
+                        <span class="feedback-type-badge">General</span>
+                    </div>
+                    <span class="feedback-date">No feedback available</span>
+                </div>
+                <div class="feedback-content">
+                    Your manager has not provided any feedback yet. Feedback will appear here once submitted.
+                </div>
+            </div>
+
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn btn-secondary" disabled>Load More History</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

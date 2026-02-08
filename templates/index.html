@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Home - MyISP{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <h1 class="page-title">Welcome to MyISP</h1>
+
+    <div class="content-panel">
+        <h3>Select Your Role</h3>
+        <p style="margin-bottom: 30px;">Choose your role to access the appropriate dashboard:</p>
+
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; margin-top: 20px;">
+
+            <a href="{{ url_for('employee_dashboard', nbk='mr002') }}" style="text-decoration: none;">
+                <div style="background: #e8f4f8; padding: 30px; border-radius: 8px; text-align: center; transition: transform 0.2s; cursor: pointer;">
+                    <h3 style="color: #1a5490; margin-top: 0;">Employee</h3>
+                    <p style="color: #666; font-size: 13px;">View your personal skills and development plans</p>
+                </div>
+            </a>
+
+            <a href="{{ url_for('manager_dashboard', manager='Harvey Specter') }}" style="text-decoration: none;">
+                <div style="background: #e8f4f8; padding: 30px; border-radius: 8px; text-align: center; transition: transform 0.2s; cursor: pointer;">
+                    <h3 style="color: #1a5490; margin-top: 0;">Manager</h3>
+                    <p style="color: #666; font-size: 13px;">Manage your direct reports and team skills</p>
+                </div>
+            </a>
+
+            <a href="{{ url_for('delivery_lead_dashboard', dl='Robert Zane') }}" style="text-decoration: none;">
+                <div style="background: #e8f4f8; padding: 30px; border-radius: 8px; text-align: center; transition: transform 0.2s; cursor: pointer;">
+                    <h3 style="color: #1a5490; margin-top: 0;">Delivery Lead</h3>
+                    <p style="color: #666; font-size: 13px;">Oversee managers and organizational skills</p>
+                </div>
+            </a>
+
+            <a href="{{ url_for('delivery_head_dashboard', dh='Jessica Pearson') }}" style="text-decoration: none;">
+                <div style="background: #e8f4f8; padding: 30px; border-radius: 8px; text-align: center; transition: transform 0.2s; cursor: pointer;">
+                    <h3 style="color: #1a5490; margin-top: 0;">Delivery Head</h3>
+                    <p style="color: #666; font-size: 13px;">Executive view of delivery leads and teams</p>
+                </div>
+            </a>
+
+            <a href="{{ url_for('group_delivery_lead_dashboard', gdl='Daniel Hardman') }}" style="text-decoration: none;">
+                <div style="background: #e8f4f8; padding: 30px; border-radius: 8px; text-align: center; transition: transform 0.2s; cursor: pointer;">
+                    <h3 style="color: #1a5490; margin-top: 0;">Group Delivery Lead</h3>
+                    <p style="color: #666; font-size: 13px;">Enterprise-wide organizational oversight</p>
+                </div>
+            </a>
+
+        </div>
+    </div>
+
+    <div class="content-panel" style="margin-top: 30px;">
+        <h3>About This Application</h3>
+        <p>The MyISP helps organizations identify and bridge the gap between employees' current skill sets and required proficiency levels.</p>
+        <ul style="margin-top: 15px; padding-left: 25px;">
+            <li style="margin-bottom: 8px;">Track employee skills across 4-level organizational hierarchy</li>
+            <li style="margin-bottom: 8px;">Identify current and future skill gaps</li>
+            <li style="margin-bottom: 8px;">Generate actionable up-skilling plans</li>
+            <li style="margin-bottom: 8px;">Role-based access with hierarchical visibility</li>
+        </ul>
+    </div>
+</div>
+
+<style>
+    .main-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px;
+    }
+    a div:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+</style>
+{% endblock %}

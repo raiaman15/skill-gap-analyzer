@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!--
+  Group Delivery Lead Settings Page
+  - Configure notification preferences and account settings.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | MyISP</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="brand-area">
+            <span class="logo-text">Company Name</span>
+            <span class="app-name">MyISP</span>
+        </div>
+        <div class="user-controls">
+            <span class="user-name">Hardman, Daniel (Group Delivery Lead)</span>
+            <a href="#" class="logout-link">Log Out</a>
+        </div>
+    </header>
+
+    <nav class="global-nav">
+        <a href="group-delivery-lead-dashboard.html">Enterprise Overview</a>
+        <a href="group-delivery-lead-reports.html">Reports</a>
+        <a href="group-delivery-lead-import-data.html">Data Import</a>
+        <a href="group-delivery-lead-settings.html" class="active">Settings</a>
+    </nav>
+
+    <div class="main-container">
+        <h1 class="page-title">Settings</h1>
+
+        <!-- Notification Settings -->
+        <div class="content-panel">
+            <h3>Notification Preferences</h3>
+            <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Configure how and when you receive notifications</p>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: flex; align-items: center; cursor: pointer;">
+                    <input type="checkbox" checked style="margin-right: 10px; width: 18px; height: 18px;">
+                    <div>
+                        <strong style="display: block; font-size: 13px;">Critical Enterprise Alerts</strong>
+                        <span style="font-size: 11px; color: #666;">Receive immediate notification for enterprise-level critical issues</span>
+                    </div>
+                </label>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: flex; align-items: center; cursor: pointer;">
+                    <input type="checkbox" checked style="margin-right: 10px; width: 18px; height: 18px;">
+                    <div>
+                        <strong style="display: block; font-size: 13px;">Weekly Strategic Summary</strong>
+                        <span style="font-size: 11px; color: #666;">Receive comprehensive weekly enterprise health report</span>
+                    </div>
+                </label>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: flex; align-items: center; cursor: pointer;">
+                    <input type="checkbox" checked style="margin-right: 10px; width: 18px; height: 18px;">
+                    <div>
+                        <strong style="display: block; font-size: 13px;">Monthly Strategic Review</strong>
+                        <span style="font-size: 11px; color: #666;">Receive monthly strategic skills development review</span>
+                    </div>
+                </label>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: flex; align-items: center; cursor: pointer;">
+                    <input type="checkbox" checked style="margin-right: 10px; width: 18px; height: 18px;">
+                    <div>
+                        <strong style="display: block; font-size: 13px;">Quarterly Business Review</strong>
+                        <span style="font-size: 11px; color: #666;">Receive quarterly organizational health and trends analysis</span>
+                    </div>
+                </label>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: flex; align-items: center; cursor: pointer;">
+                    <input type="checkbox" style="margin-right: 10px; width: 18px; height: 18px;">
+                    <div>
+                        <strong style="display: block; font-size: 13px;">Delivery Head Updates</strong>
+                        <span style="font-size: 11px; color: #666;">Receive notifications when delivery heads update organizational data</span>
+                    </div>
+                </label>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: flex; align-items: center; cursor: pointer;">
+                    <input type="checkbox" checked style="margin-right: 10px; width: 18px; height: 18px;">
+                    <div>
+                        <strong style="display: block; font-size: 13px;">Data Import Completion</strong>
+                        <span style="font-size: 11px; color: #666;">Receive notification when large-scale data imports are completed</span>
+                    </div>
+                </label>
+            </div>
+
+            <button class="btn btn-primary" style="margin-top: 20px;">Save Notification Settings</button>
+        </div>
+
+        <!-- Display Preferences -->
+        <div class="content-panel">
+            <h3>Display Preferences</h3>
+            <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Customize how information is displayed</p>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-size: 13px;"><strong>Default Dashboard View:</strong></label>
+                <select style="width: 100%; max-width: 300px; padding: 8px; border: 1px solid #ccc; font-size: 12px;">
+                    <option>Enterprise Overview</option>
+                    <option>Delivery Heads Summary</option>
+                    <option>Strategic Metrics</option>
+                    <option>Critical Gaps</option>
+                    <option>Organizational Trends</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-size: 13px;"><strong>Items Per Page:</strong></label>
+                <select style="width: 100%; max-width: 300px; padding: 8px; border: 1px solid #ccc; font-size: 12px;">
+                    <option>25</option>
+                    <option>50</option>
+                    <option selected>100</option>
+                    <option>All</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-size: 13px;"><strong>Report Format Preference:</strong></label>
+                <select style="width: 100%; max-width: 300px; padding: 8px; border: 1px solid #ccc; font-size: 12px;">
+                    <option selected>PDF</option>
+                    <option>XLSX</option>
+                    <option>CSV</option>
+                </select>
+            </div>
+
+            <button class="btn btn-primary" style="margin-top: 20px;">Save Display Settings</button>
+        </div>
+
+        <!-- Account Information -->
+        <div class="content-panel">
+            <h3>Account Information</h3>
+            <table style="width: 100%; border: none;">
+                <tr style="border: none;">
+                    <td style="border: none; padding: 8px 0;"><strong>Name:</strong></td>
+                    <td style="border: none; padding: 8px 0;">Daniel Hardman</td>
+                </tr>
+                <tr style="border: none;">
+                    <td style="border: none; padding: 8px 0;"><strong>NBK:</strong></td>
+                    <td style="border: none; padding: 8px 0;">dh009</td>
+                </tr>
+                <tr style="border: none;">
+                    <td style="border: none; padding: 8px 0;"><strong>Role:</strong></td>
+                    <td style="border: none; padding: 8px 0;">Group Delivery Lead</td>
+                </tr>
+                <tr style="border: none;">
+                    <td style="border: none; padding: 8px 0;"><strong>Email:</strong></td>
+                    <td style="border: none; padding: 8px 0;">d.hardman@pearson.com</td>
+                </tr>
+                <tr style="border: none;">
+                    <td style="border: none; padding: 8px 0;"><strong>Function:</strong></td>
+                    <td style="border: none; padding: 8px 0;">Global Operations</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2026 Company Name Corporation. All rights reserved. For Internal Use Only.
+    </footer>
+
+</body>
+</html>

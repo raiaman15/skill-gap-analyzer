@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<!--
+  Delivery Lead Settings Page
+  - Configure notification preferences and account settings.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings | MyISP</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <header>
+        <div class="brand-area">
+            <span class="logo-text">Company Name</span>
+            <span class="app-name">MyISP</span>
+        </div>
+        <div class="user-controls">
+            <span class="user-name">Zane, Robert (Delivery Lead)</span>
+            <a href="#" class="logout-link">Log Out</a>
+        </div>
+    </header>
+
+    <nav class="global-nav">
+        <a href="delivery-lead-dashboard.html">Organization Overview</a>
+        <a href="delivery-lead-reports.html">Reports</a>
+        <a href="delivery-lead-import-data.html">Data Import</a>
+        <a href="delivery-lead-settings.html" class="active">Settings</a>
+    </nav>
+
+    <div class="main-container">
+        <h1 class="page-title">Settings</h1>
+
+        <!-- Notification Settings -->
+        <div class="content-panel">
+            <h3>Notification Preferences</h3>
+            <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Configure how and when you receive notifications</p>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: flex; align-items: center; cursor: pointer;">
+                    <input type="checkbox" checked style="margin-right: 10px; width: 18px; height: 18px;">
+                    <div>
+                        <strong style="display: block; font-size: 13px;">New Skill Gaps Detected</strong>
+                        <span style="font-size: 11px; color: #666;">Receive email when new skill gaps are identified in your organization</span>
+                    </div>
+                </label>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: flex; align-items: center; cursor: pointer;">
+                    <input type="checkbox" checked style="margin-right: 10px; width: 18px; height: 18px;">
+                    <div>
+                        <strong style="display: block; font-size: 13px;">Weekly Organization Summary</strong>
+                        <span style="font-size: 11px; color: #666;">Receive weekly summary of organizational skill health</span>
+                    </div>
+                </label>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: flex; align-items: center; cursor: pointer;">
+                    <input type="checkbox" style="margin-right: 10px; width: 18px; height: 18px;">
+                    <div>
+                        <strong style="display: block; font-size: 13px;">Manager Updates</strong>
+                        <span style="font-size: 11px; color: #666;">Receive notifications when managers update employee skills or feedback</span>
+                    </div>
+                </label>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: flex; align-items: center; cursor: pointer;">
+                    <input type="checkbox" checked style="margin-right: 10px; width: 18px; height: 18px;">
+                    <div>
+                        <strong style="display: block; font-size: 13px;">Data Import Completion</strong>
+                        <span style="font-size: 11px; color: #666;">Receive notification when data imports are completed</span>
+                    </div>
+                </label>
+            </div>
+
+            <button class="btn btn-primary" style="margin-top: 20px;">Save Notification Settings</button>
+        </div>
+
+        <!-- Display Preferences -->
+        <div class="content-panel">
+            <h3>Display Preferences</h3>
+            <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Customize how information is displayed</p>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-size: 13px;"><strong>Default Dashboard View:</strong></label>
+                <select style="width: 100%; max-width: 300px; padding: 8px; border: 1px solid #ccc; font-size: 12px;">
+                    <option>Managers Overview</option>
+                    <option>All Team Members</option>
+                    <option>Skills Summary</option>
+                </select>
+            </div>
+
+            <div style="margin-bottom: 15px;">
+                <label style="display: block; margin-bottom: 5px; font-size: 13px;"><strong>Items Per Page:</strong></label>
+                <select style="width: 100%; max-width: 300px; padding: 8px; border: 1px solid #ccc; font-size: 12px;">
+                    <option>10</option>
+                    <option selected>25</option>
+                    <option>50</option>
+                    <option>100</option>
+                </select>
+            </div>
+
+            <button class="btn btn-primary" style="margin-top: 20px;">Save Display Settings</button>
+        </div>
+
+        <!-- Account Information -->
+        <div class="content-panel">
+            <h3>Account Information</h3>
+            <table style="width: 100%; border: none;">
+                <tr style="border: none;">
+                    <td style="border: none; padding: 8px 0;"><strong>Name:</strong></td>
+                    <td style="border: none; padding: 8px 0;">Robert Zane</td>
+                </tr>
+                <tr style="border: none;">
+                    <td style="border: none; padding: 8px 0;"><strong>NBK:</strong></td>
+                    <td style="border: none; padding: 8px 0;">rza007</td>
+                </tr>
+                <tr style="border: none;">
+                    <td style="border: none; padding: 8px 0;"><strong>Role:</strong></td>
+                    <td style="border: none; padding: 8px 0;">Delivery Lead</td>
+                </tr>
+                <tr style="border: none;">
+                    <td style="border: none; padding: 8px 0;"><strong>Email:</strong></td>
+                    <td style="border: none; padding: 8px 0;">r.zane@pearson.com</td>
+                </tr>
+                <tr style="border: none;">
+                    <td style="border: none; padding: 8px 0;"><strong>Delivery Head:</strong></td>
+                    <td style="border: none; padding: 8px 0;">Jessica Pearson</td>
+                </tr>
+            </table>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2026 Company Name Corporation. All rights reserved. For Internal Use Only.
+    </footer>
+
+</body>
+</html>

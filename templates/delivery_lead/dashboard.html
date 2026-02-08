@@ -1,0 +1,411 @@
+{% extends "base.html" %}
+
+{% block title %}Delivery Lead Dashboard - MyISP{% endblock %}
+
+{% block user_name %}{{ dl_name }} (Delivery Lead){% endblock %}
+
+{% block nav %}
+<nav class="global-nav">
+    <a href="{{ url_for('delivery_lead_dashboard', dl=dl_name) }}" class="active">Organization Overview</a>
+    <a href="{{ url_for('delivery_lead_reports', dl=dl_name) }}">Reports</a>
+    <a href="{{ url_for('delivery_lead_import_data') }}">Data Import</a>
+    <a href="{{ url_for('delivery_lead_settings', dl=dl_name) }}">Settings</a>
+</nav>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .search-card {
+        background: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 25px 30px;
+        margin-bottom: 30px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .search-card-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid #f0f0f0;
+    }
+
+    .search-icon {
+        width: 24px;
+        height: 24px;
+        color: #1a5490;
+    }
+
+    .search-card-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin: 0;
+    }
+
+    .filter-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+        margin-bottom: 20px;
+    }
+
+    .filter-field {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .filter-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #555;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .filter-input, .filter-select {
+        padding: 10px 14px;
+        font-size: 14px;
+        border: 1px solid #d0d0d0;
+        border-radius: 6px;
+        background: white;
+        transition: all 0.2s;
+    }
+
+    .filter-input:focus, .filter-select:focus {
+        outline: none;
+        border-color: #1a5490;
+        box-shadow: 0 0 0 3px rgba(26, 84, 144, 0.1);
+    }
+
+    .filter-input::placeholder {
+        color: #999;
+    }
+
+    .filter-actions {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .btn-filter {
+        padding: 10px 20px;
+        font-size: 13px;
+        font-weight: 600;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: all 0.2s;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .btn-clear {
+        background: #f5f5f5;
+        color: #666;
+    }
+
+    .btn-clear:hover {
+        background: #e0e0e0;
+    }
+
+    .manager-section {
+        margin-bottom: 30px;
+    }
+
+    .manager-header {
+        background: linear-gradient(135deg, #e8f4f8 0%, #d0e8f0 100%);
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s;
+        border: 1px solid #c0d8e0;
+    }
+
+    .manager-header:hover {
+        background: linear-gradient(135deg, #d0e8f0 0%, #b8d8e8 100%);
+        box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        transform: translateY(-2px);
+    }
+
+    .manager-info {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .manager-name {
+        font-size: 18px;
+        font-weight: 700;
+        color: #1a5490;
+    }
+
+    .manager-stats {
+        font-size: 13px;
+        color: #666;
+        display: flex;
+        gap: 15px;
+    }
+
+    .stat-badge {
+        background: white;
+        padding: 4px 12px;
+        border-radius: 12px;
+        font-weight: 600;
+    }
+
+    .expand-icon {
+        font-size: 24px;
+        transition: transform 0.3s;
+        color: #1a5490;
+        font-weight: bold;
+    }
+
+    .expand-icon.expanded {
+        transform: rotate(90deg);
+    }
+
+    .team-details {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s ease-out;
+    }
+
+    .team-details.expanded {
+        max-height: 2000px;
+        transition: max-height 0.5s ease-in;
+    }
+
+    .team-table {
+        margin: 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <h1 class="page-title">Delivery Lead Dashboard: {{ dl_name }}</h1>
+
+    <!-- KPI Cards -->
+    <div class="kpi-row">
+        <div class="kpi-card">
+            <span class="kpi-value">{{ managers|length }}</span>
+            <span class="kpi-label">Managers</span>
+        </div>
+        <div class="kpi-card">
+            <span class="kpi-value">{{ managers|sum(attribute='total_reports') }}</span>
+            <span class="kpi-label">Total Team Members</span>
+        </div>
+        <div class="kpi-card {% if managers|sum(attribute='total_gaps') > 0 %}alert{% endif %}">
+            <span class="kpi-value">
+                {% set total_gaps = managers|sum(attribute='total_gaps') %}
+                {% set total_employees = managers|sum(attribute='total_reports') %}
+                {% if total_employees > 0 %}
+                    {{ (total_gaps / total_employees * 100)|round|int }}%
+                {% else %}
+                    0%
+                {% endif %}
+            </span>
+            <span class="kpi-label">Organization Skill Gaps</span>
+        </div>
+    </div>
+
+    <!-- Search & Filter Card -->
+    <div class="search-card">
+        <div class="search-card-header">
+            <svg class="search-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <h3 class="search-card-title">Search & Filter Organization</h3>
+        </div>
+
+        <div class="filter-grid">
+            <div class="filter-field">
+                <label class="filter-label">Manager</label>
+                <select id="manager-filter" class="filter-select">
+                    <option value="">All Managers</option>
+                    {% for mgr in all_managers %}
+                    <option value="{{ mgr }}">{{ mgr }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-field">
+                <label class="filter-label">Employee</label>
+                <select id="employee-filter" class="filter-select">
+                    <option value="">All Employees</option>
+                    {% for mgr in managers %}
+                        {% for emp in mgr.employees %}
+                        <option value="{{ emp.nbk }}">{{ emp.name }}</option>
+                        {% endfor %}
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="filter-field">
+                <label class="filter-label">Search</label>
+                <input type="text" id="search-input" class="filter-input" placeholder="Search by name, role, or NBK...">
+            </div>
+        </div>
+
+        <div class="filter-actions">
+            <button class="btn-filter btn-clear" onclick="clearFilters()">Clear Filters</button>
+        </div>
+    </div>
+
+    <!-- Manager Sections -->
+    {% for mgr in managers %}
+    <div class="manager-section" data-manager="{{ mgr.name }}">
+        <div class="manager-header" onclick="toggleManager('mgr-{{ loop.index }}')">
+            <div class="manager-info">
+                <span class="manager-name">{{ mgr.name }}</span>
+                <div class="manager-stats">
+                    <span class="stat-badge">{{ mgr.total_reports }} Reports</span>
+                    <span class="stat-badge" style="{% if mgr.total_gaps > 0 %}color: #da291c;{% endif %}">{{ mgr.total_gaps }} Gaps</span>
+                </div>
+            </div>
+            <span class="expand-icon" id="icon-mgr-{{ loop.index }}">▶</span>
+        </div>
+        <div class="team-details" id="team-mgr-{{ loop.index }}">
+            <div class="content-panel team-table">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Employee Name</th>
+                            <th>Role</th>
+                            <th>Function</th>
+                            <th style="text-align: center;">Skills Tracked</th>
+                            <th>Current Readiness</th>
+                            <th>Future Readiness</th>
+                            <th style="width: 100px;">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for emp in mgr.employees %}
+                        <tr data-nbk="{{ emp.nbk }}" data-manager="{{ mgr.name }}">
+                            <td>
+                                <strong>{{ emp.name }}</strong>
+                                <div style="font-size: 10px; color: #777;">NBK: {{ emp.nbk }}</div>
+                            </td>
+                            <td>{{ emp.role }}</td>
+                            <td>{{ emp.function }}</td>
+                            <td style="text-align: center;">{{ emp.total_skills }}</td>
+                            <td>
+                                {% if emp.current_gaps == 0 %}
+                                <span class="status-indicator status-ok">On Target</span>
+                                {% elif emp.current_gaps <= 2 %}
+                                <span class="status-indicator status-warn">{{ emp.current_gaps }} Gaps Identified</span>
+                                {% else %}
+                                <span class="status-indicator status-err">{{ emp.current_gaps }} Gaps Identified</span>
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if emp.future_gaps == 0 %}
+                                <span class="status-indicator status-ok">On Target</span>
+                                {% elif emp.future_gaps <= 2 %}
+                                <span class="status-indicator status-warn">{{ emp.future_gaps }} Gaps Identified</span>
+                                {% else %}
+                                <span class="status-indicator status-err">{{ emp.future_gaps }} Gaps Identified</span>
+                                {% endif %}
+                            </td>
+                            <td><a href="{{ url_for('delivery_lead_employee_details', nbk=emp.nbk) }}" class="btn btn-secondary">Details</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    function toggleManager(managerId) {
+        const teamDetails = document.getElementById(`team-${managerId}`);
+        const icon = document.getElementById(`icon-${managerId}`);
+
+        teamDetails.classList.toggle('expanded');
+        icon.classList.toggle('expanded');
+    }
+
+    const searchInput = document.getElementById('search-input');
+    const managerFilter = document.getElementById('manager-filter');
+    const employeeFilter = document.getElementById('employee-filter');
+    const managerSections = Array.from(document.querySelectorAll('.manager-section'));
+
+    function applyFilters() {
+        const searchTerm = searchInput.value.toLowerCase();
+        const selectedManager = managerFilter.value;
+        const selectedEmployee = employeeFilter.value;
+
+        managerSections.forEach(section => {
+            const managerName = section.getAttribute('data-manager');
+            const employees = Array.from(section.querySelectorAll('tbody tr'));
+
+            let showManager = true;
+            if (selectedManager && managerName !== selectedManager) {
+                showManager = false;
+            }
+
+            let visibleEmployees = 0;
+            employees.forEach(emp => {
+                const empNbk = emp.getAttribute('data-nbk');
+                const empText = emp.textContent.toLowerCase();
+
+                let showEmployee = true;
+
+                if (selectedEmployee && empNbk !== selectedEmployee) {
+                    showEmployee = false;
+                }
+
+                if (searchTerm && !empText.includes(searchTerm)) {
+                    showEmployee = false;
+                }
+
+                emp.style.display = showEmployee ? '' : 'none';
+                if (showEmployee) visibleEmployees++;
+            });
+
+            if (!showManager || (selectedEmployee && visibleEmployees === 0)) {
+                section.style.display = 'none';
+            } else {
+                section.style.display = '';
+
+                if (selectedEmployee || searchTerm) {
+                    const teamDetails = section.querySelector('.team-details');
+                    const icon = section.querySelector('.expand-icon');
+                    if (teamDetails && !teamDetails.classList.contains('expanded')) {
+                        teamDetails.classList.add('expanded');
+                        icon.classList.add('expanded');
+                    }
+                }
+            }
+        });
+    }
+
+    function clearFilters() {
+        searchInput.value = '';
+        managerFilter.value = '';
+        employeeFilter.value = '';
+        applyFilters();
+
+        document.querySelectorAll('.team-details').forEach(td => td.classList.remove('expanded'));
+        document.querySelectorAll('.expand-icon').forEach(icon => icon.classList.remove('expanded'));
+    }
+
+    searchInput.addEventListener('keyup', applyFilters);
+    managerFilter.addEventListener('change', applyFilters);
+    employeeFilter.addEventListener('change', applyFilters);
+</script>
+{% endblock %}

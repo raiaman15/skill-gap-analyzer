@@ -1,0 +1,276 @@
+{% extends "base.html" %}
+
+{% block title %}Up-Skill Plan - MyISP{% endblock %}
+
+{% block user_name %}{{ employee.Name }} ({{ employee.Role }}){% endblock %}
+
+{% block nav %}
+<nav class="global-nav">
+    <a href="{{ url_for('employee_dashboard', nbk=employee.NBK) }}">Dashboard</a>
+    <a href="{{ url_for('employee_upskill_plan', nbk=employee.NBK) }}" class="active">Up-Skill Plan</a>
+    <a href="{{ url_for('employee_feedback', nbk=employee.NBK) }}">Manager Feedback</a>
+</nav>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .alert {
+        padding: 15px 20px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        font-size: 13px;
+    }
+
+    .alert-danger {
+        background-color: #fce8e6;
+        border: 1px solid #fad2cf;
+        color: var(--status-red);
+    }
+
+    .skill-cards-container {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .skill-card-wrapper {
+        background: white;
+        border: 1px solid #dcdcdc;
+        border-radius: 4px;
+        overflow: hidden;
+        transition: box-shadow 0.2s;
+    }
+
+    .skill-card-wrapper:hover {
+        box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+    }
+
+    .skill-card-header {
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        background: #fff;
+        border-left: 5px solid var(--status-red);
+    }
+
+    .header-main {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .skill-title {
+        font-size: 18px;
+        font-weight: bold;
+        color: #333;
+        margin: 0;
+    }
+
+    .status-badge {
+        padding: 5px 10px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: bold;
+        text-transform: uppercase;
+        background: #fce8e6;
+        color: var(--status-red);
+    }
+
+    .toggle-btn {
+        background: white;
+        border: 1px solid var(--brand-link);
+        color: var(--brand-link);
+        border-radius: 4px;
+        padding: 6px 12px;
+        font-size: 11px;
+        font-weight: bold;
+        cursor: pointer;
+        text-transform: uppercase;
+        transition: all 0.2s;
+    }
+
+    .toggle-btn:hover {
+        background-color: #f0f8ff;
+        border-color: var(--brand-dark-blue);
+        color: var(--brand-dark-blue);
+    }
+
+    .skill-details-content {
+        border-top: 1px solid #eee;
+        background-color: #fafafa;
+        padding: 30px;
+        display: none;
+    }
+
+    .skill-details-content.expanded {
+        display: block;
+    }
+
+    .prof-meter {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 30px 0;
+        position: relative;
+        padding: 0 40px;
+    }
+
+    .prof-meter::before {
+        content: '';
+        position: absolute;
+        top: 20px;
+        left: 40px;
+        right: 40px;
+        height: 2px;
+        background: #e0e0e0;
+        z-index: 1;
+    }
+
+    .prof-step {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #fff;
+        color: #ccc;
+        border: 2px solid #ccc;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        z-index: 2;
+        position: relative;
+        font-size: 14px;
+    }
+
+    .prof-step.current {
+        background: var(--brand-dark-blue);
+        color: white;
+        border-color: var(--brand-dark-blue);
+        box-shadow: 0 0 0 4px rgba(0, 24, 113, 0.2);
+    }
+
+    .prof-step.target {
+        background: white;
+        color: var(--brand-red);
+        border-color: var(--brand-red);
+        border-width: 3px;
+    }
+
+    .prof-label {
+        position: absolute;
+        top: 50px;
+        left: 50%;
+        transform: translateX(-50%);
+        white-space: nowrap;
+        font-size: 11px;
+        color: #666;
+        text-align: center;
+    }
+
+    .training-module {
+        background: white;
+        padding: 15px;
+        border: 1px solid #e0e0e0;
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="main-container">
+
+    <h1 class="page-title">My Development Plans</h1>
+
+    {% if gap_skills|length > 0 %}
+    <div class="alert alert-danger">
+        <span style="font-size: 20px;">&otimes;</span>
+        <div>
+            <strong>Critical Action:</strong> You have <strong>{{ gap_skills|length }} current skill gaps</strong> that require immediate attention.
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="skill-cards-container">
+
+        {% for skill in gap_skills %}
+        <div class="skill-card-wrapper">
+            <div class="skill-card-header" onclick="toggleCard('details-{{ loop.index }}', 'btn-{{ loop.index }}')">
+                <div class="header-main">
+                    <div>
+                        <h3 class="skill-title">{{ skill.name }}</h3>
+                    </div>
+                    <span class="status-badge">Gap Identified</span>
+                </div>
+                <button id="btn-{{ loop.index }}" class="toggle-btn" style="display: flex; align-items: center;">
+                    View Plan
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-left:5px;"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </button>
+            </div>
+
+            <div id="details-{{ loop.index }}" class="skill-details-content">
+                <div style="margin-bottom: 30px;">
+                    <h4 style="margin-top: 0; color: #555;">Gap Analysis</h4>
+                    <div class="prof-meter">
+                        <div class="prof-step">1<div class="prof-label">Novice</div></div>
+                        <div class="prof-step current">{{ skill.current }}<div class="prof-label">Current</div></div>
+                        <div class="prof-step target">{{ skill.target }}<div class="prof-label">Target</div></div>
+                        <div class="prof-step">4<div class="prof-label">Master</div></div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 style="color: #555;">Recommended Training</h4>
+                    <div class="training-module">
+                        <div>
+                            <div style="font-weight: bold; color: var(--brand-link);">Training module for {{ skill.name }}</div>
+                            <div style="font-size: 11px; color: #666;">Provider: Internal Learning | 2-4h</div>
+                        </div>
+                        <button class="btn btn-primary">Enroll</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+
+        {% if gap_skills|length == 0 %}
+        <div class="content-panel">
+            <p style="text-align: center; color: #666; padding: 40px;">
+                No current skill gaps identified. Keep up the great work!
+            </p>
+        </div>
+        {% endif %}
+
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const ICON_DOWN = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-left:5px;"><polyline points="6 9 12 15 18 9"></polyline></svg>';
+    const ICON_UP = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-left:5px;"><polyline points="18 15 12 9 6 15"></polyline></svg>';
+
+    function toggleCard(detailId, btnId) {
+        const detail = document.getElementById(detailId);
+        const btn = document.getElementById(btnId);
+
+        if (detail.style.display === 'block' || detail.classList.contains('expanded')) {
+            detail.style.display = 'none';
+            detail.classList.remove('expanded');
+            btn.innerHTML = 'View Plan ' + ICON_DOWN;
+        } else {
+            detail.style.display = 'block';
+            detail.classList.add('expanded');
+            btn.innerHTML = 'Hide Plan ' + ICON_UP;
+        }
+    }
+</script>
+{% endblock %}

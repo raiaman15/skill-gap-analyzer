@@ -1,23 +1,68 @@
 <!DOCTYPE html>
-<!-- 
+<!--
   Manager Dashboard Page
   - Displays high-level team metrics (Direct Reports, Skill Gaps).
-  - Provides a searchable Team Overview table.
+  - Provides smart search/filter for employees.
   - Links to detailed employee views.
 -->
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manager Dashboard | Skill Gap Analyzer</title>
+    <title>Manager Dashboard | MyISP</title>
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .filter-bar {
+            background: #f5f5f5;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .filter-group label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #555;
+        }
+        .filter-group select,
+        .filter-group input {
+            padding: 6px 10px;
+            font-size: 12px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .filter-group select {
+            min-width: 180px;
+        }
+        .filter-group input {
+            min-width: 200px;
+        }
+        .clear-filters {
+            padding: 6px 12px;
+            font-size: 12px;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .clear-filters:hover {
+            background: #f0f0f0;
+        }
+    </style>
 </head>
 <body>
 
     <header>
         <div class="brand-area">
             <span class="logo-text">Company Name</span>
-            <span class="app-name">Skill Gap Analyzer</span>
+            <span class="app-name">MyISP</span>
         </div>
         <div class="user-controls">
             <span class="user-name">Specter, Harvey (Senior Partner)</span>
@@ -32,13 +77,31 @@
         <a href="manager-settings.html">Settings</a>
     </nav>
 
+    <!-- Smart Filter Bar -->
+    <div class="filter-bar">
+        <div class="filter-group">
+            <label>Employee:</label>
+            <select id="employee-filter">
+                <option value="">All Employees</option>
+                <option value="mr002">Ross, Mike</option>
+                <option value="dp003">Paulsen, Donna</option>
+                <option value="aw010">Williams, Alex</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Search:</label>
+            <input type="text" id="search-input" placeholder="Search by name, role, or NBK...">
+        </div>
+        <button class="clear-filters" onclick="clearFilters()">Clear Filters</button>
+    </div>
+
     <div class="main-container">
-        <h1 class="page-title">Manager Dashboard: Legal Dept</h1>
+        <h1 class="page-title">Manager Dashboard: Corporate Litigation</h1>
 
         <!-- KPI Cards -->
         <div class="kpi-row">
             <div class="kpi-card">
-                <span class="kpi-value">2</span>
+                <span class="kpi-value">3</span>
                 <span class="kpi-label">Direct Reports</span>
             </div>
             <div class="kpi-card alert">
@@ -49,14 +112,8 @@
 
         <!-- Team Overview Table -->
         <div class="content-panel">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <h3 style="margin: 0; font-size: 14px; text-transform: uppercase; color: #555;">Team Composition</h3>
-                <div>
-                    <input type="text" id="search-input" placeholder="Search by Name or NBK..." style="padding: 5px; font-size: 12px; border: 1px solid #ccc; width: 200px;">
-                    <button class="btn btn-secondary" id="filter-btn">Filter</button>
-                </div>
-            </div>
-            
+            <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">Direct Reports</h3>
+
             <table>
                 <thead>
                     <tr>
@@ -71,7 +128,7 @@
                 </thead>
                 <tbody id="team-table-body">
                     <!-- Mike Ross -->
-                    <tr>
+                    <tr data-nbk="mr002" data-name="Ross, Mike" data-role="Junior Associate">
                         <td>
                             <strong>Ross, Mike</strong>
                             <div style="font-size: 10px; color: #777;">NBK: mr002</div>
@@ -80,26 +137,38 @@
                         <td>Legal Research</td>
                         <td style="text-align: center;">4</td>
                         <td><span class="status-indicator status-warn">2 Gaps Identified</span></td>
-                        <td><span class="status-indicator status-err">High Risk</span></td>
+                        <td><span class="status-indicator status-err">3 Gaps Identified</span></td>
                         <td><a href="manager-employee-details.html" class="btn btn-secondary">Details</a></td>
                     </tr>
                     <!-- Donna Paulsen -->
-                    <tr>
+                    <tr data-nbk="dp003" data-name="Paulsen, Donna" data-role="COO">
                         <td>
                             <strong>Paulsen, Donna</strong>
                             <div style="font-size: 10px; color: #777;">NBK: dp003</div>
                         </td>
                         <td>COO</td>
                         <td>Operations</td>
-                        <td style="text-align: center;">5</td>
+                        <td style="text-align: center;">2</td>
                         <td><span class="status-indicator status-ok">On Target</span></td>
-                        <td><span class="status-indicator status-warn">Medium Risk</span></td>
+                        <td><span class="status-indicator status-warn">1 Gap Identified</span></td>
+                        <td><a href="manager-employee-details.html" class="btn btn-secondary">Details</a></td>
+                    </tr>
+                    <!-- Alex Williams -->
+                    <tr data-nbk="aw010" data-name="Williams, Alex" data-role="Associate">
+                        <td>
+                            <strong>Williams, Alex</strong>
+                            <div style="font-size: 10px; color: #777;">NBK: aw010</div>
+                        </td>
+                        <td>Associate</td>
+                        <td>Legal Analysis</td>
+                        <td style="text-align: center;">2</td>
+                        <td><span class="status-indicator status-warn">2 Gaps Identified</span></td>
+                        <td><span class="status-indicator status-err">2 Gaps Identified</span></td>
                         <td><a href="manager-employee-details.html" class="btn btn-secondary">Details</a></td>
                     </tr>
                 </tbody>
             </table>
         </div>
-
 
     </div>
 
@@ -107,28 +176,45 @@
         &copy; 2026 Company Name Corporation. All rights reserved. For Internal Use Only.
     </footer>
 
-    <!-- Client-side Table Filtering Logic -->
+    <!-- Client-side Filtering Logic -->
     <script>
         const searchInput = document.getElementById('search-input');
-        const filterBtn = document.getElementById('filter-btn');
+        const employeeFilter = document.getElementById('employee-filter');
         const tableBody = document.getElementById('team-table-body');
-        const rows = tableBody.getElementsByTagName('tr');
+        const rows = Array.from(tableBody.getElementsByTagName('tr'));
 
-        function filterTable() {
-            const filter = searchInput.value.toLowerCase();
-            for (let i = 0; i < rows.length; i++) {
-                const row = rows[i];
-                const text = row.textContent || row.innerText;
-                if (text.toLowerCase().indexOf(filter) > -1) {
-                    row.style.display = "";
-                } else {
-                    row.style.display = "none";
+        function applyFilters() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedEmployee = employeeFilter.value;
+
+            rows.forEach(row => {
+                const nbk = row.getAttribute('data-nbk');
+                const text = row.textContent.toLowerCase();
+
+                let showRow = true;
+
+                // Apply employee filter
+                if (selectedEmployee && nbk !== selectedEmployee) {
+                    showRow = false;
                 }
-            }
+
+                // Apply search filter
+                if (searchTerm && !text.includes(searchTerm)) {
+                    showRow = false;
+                }
+
+                row.style.display = showRow ? '' : 'none';
+            });
         }
 
-        filterBtn.addEventListener('click', filterTable);
-        searchInput.addEventListener('keyup', filterTable);
+        function clearFilters() {
+            searchInput.value = '';
+            employeeFilter.value = '';
+            applyFilters();
+        }
+
+        searchInput.addEventListener('keyup', applyFilters);
+        employeeFilter.addEventListener('change', applyFilters);
     </script>
 </body>
 </html>

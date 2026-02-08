@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block title %}Reports - MyISP{% endblock %}
+
+{% block user_name %}{{ dl_name }}{% endblock %}
+
+{% block nav %}
+<nav class="global-nav">
+    <a href="{{ url_for('delivery_lead_dashboard', dl=dl_name) }}">Organization Overview</a>
+    <a href="{{ url_for('delivery_lead_reports', dl=dl_name) }}" class="active">Reports</a>
+    <a href="{{ url_for('delivery_lead_import_data') }}">Data Import</a>
+    <a href="{{ url_for('delivery_lead_settings', dl=dl_name) }}">Settings</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <h1 class="page-title">Organization Reports</h1>
+
+    <div class="content-panel">
+        <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">Organization Summary</h3>
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <span class="kpi-value">{{ total_employees }}</span>
+                <span class="kpi-label">Total Employees</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-value">{{ total_skills }}</span>
+                <span class="kpi-label">Total Skills Tracked</span>
+            </div>
+            <div class="kpi-card alert">
+                <span class="kpi-value">{{ current_gaps }}</span>
+                <span class="kpi-label">Current Skill Gaps</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-panel">
+        <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">Skill Distribution Analysis</h3>
+        <div style="height: 200px; background: #fafafa; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; color: #999;">
+            [Interactive Chart Component Placeholder]
+        </div>
+    </div>
+
+    <div class="content-panel">
+        <div style="margin-top: 15px;">
+            <button class="btn btn-secondary">Export to CSV</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Reports - MyISP{% endblock %}
+
+{% block user_name %}Group Delivery Lead{% endblock %}
+
+{% block nav %}
+<nav class="global-nav">
+    <a href="{{ url_for('group_delivery_lead_dashboard', gdl='Daniel Hardman') }}">Global Overview</a>
+    <a href="{{ url_for('group_delivery_lead_reports') }}" class="active">Reports</a>
+    <a href="{{ url_for('group_delivery_lead_import_data') }}">Data Import</a>
+    <a href="{{ url_for('group_delivery_lead_settings') }}">Settings</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <h1 class="page-title">Global Enterprise Reports</h1>
+
+    <div class="content-panel">
+        <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">Global Skill Analysis</h3>
+        <div style="height: 200px; background: #fafafa; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; color: #999;">
+            [Interactive Chart Component Placeholder]
+        </div>
+    </div>
+</div>
+{% endblock %}

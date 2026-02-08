@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<!--
+  Delivery Lead Dashboard Page
+  - Displays hierarchical organizational view.
+  - Smart filtering for Managers and Employees.
+  - Expandable manager sections to show their teams.
+-->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delivery Lead Dashboard | MyISP</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <style>
+        .filter-bar {
+            background: #f5f5f5;
+            padding: 15px 20px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .filter-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .filter-group label {
+            font-size: 12px;
+            font-weight: bold;
+            color: #555;
+        }
+        .filter-group select,
+        .filter-group input {
+            padding: 6px 10px;
+            font-size: 12px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+        .filter-group select {
+            min-width: 180px;
+        }
+        .filter-group input {
+            min-width: 200px;
+        }
+        .clear-filters {
+            padding: 6px 12px;
+            font-size: 12px;
+            background: #fff;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+        .clear-filters:hover {
+            background: #f0f0f0;
+        }
+        .manager-section {
+            margin-bottom: 30px;
+        }
+        .manager-header {
+            background: #e8f4f8;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+        .manager-header:hover {
+            background: #d0e8f0;
+        }
+        .manager-info {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .manager-name {
+            font-size: 16px;
+            font-weight: bold;
+            color: #1a5490;
+        }
+        .manager-stats {
+            font-size: 12px;
+            color: #666;
+        }
+        .expand-icon {
+            font-size: 20px;
+            transition: transform 0.3s;
+            color: #1a5490;
+        }
+        .expand-icon.expanded {
+            transform: rotate(90deg);
+        }
+        .team-details {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        .team-details.expanded {
+            max-height: 2000px;
+            transition: max-height 0.5s ease-in;
+        }
+        .team-table {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand-area">
+            <span class="logo-text">Company Name</span>
+            <span class="app-name">MyISP</span>
+        </div>
+        <div class="user-controls">
+            <span class="user-name">Zane, Robert (Delivery Lead)</span>
+            <a href="#" class="logout-link">Log Out</a>
+        </div>
+    </header>
+
+    <nav class="global-nav">
+        <a href="delivery-lead-dashboard.html" class="active">Organization Overview</a>
+        <a href="delivery-lead-reports.html">Reports</a>
+        <a href="delivery-lead-import-data.html">Data Import</a>
+        <a href="delivery-lead-settings.html">Settings</a>
+    </nav>
+
+    <!-- Smart Filter Bar -->
+    <div class="filter-bar">
+        <div class="filter-group">
+            <label>Manager:</label>
+            <select id="manager-filter">
+                <option value="">All Managers</option>
+                <option value="hs001">Specter, Harvey</option>
+                <option value="ll004">Litt, Louis</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Employee:</label>
+            <select id="employee-filter">
+                <option value="">All Employees</option>
+                <option value="mr002">Ross, Mike</option>
+                <option value="dp003">Paulsen, Donna</option>
+                <option value="aw010">Williams, Alex</option>
+                <option value="rz005">Zane, Rachel</option>
+                <option value="kb006">Bennett, Katrina</option>
+                <option value="sw011">Wheeler, Samantha</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label>Search:</label>
+            <input type="text" id="search-input" placeholder="Search by name, role, or NBK...">
+        </div>
+        <button class="clear-filters" onclick="clearFilters()">Clear Filters</button>
+    </div>
+
+    <div class="main-container">
+        <h1 class="page-title">Delivery Lead Dashboard: Corporate Strategy</h1>
+
+        <!-- KPI Cards -->
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <span class="kpi-value">2</span>
+                <span class="kpi-label">Managers</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-value">6</span>
+                <span class="kpi-label">Total Team Members</span>
+            </div>
+            <div class="kpi-card alert">
+                <span class="kpi-value">55%</span>
+                <span class="kpi-label">Organization Skill Gaps</span>
+            </div>
+        </div>
+
+        <!-- Harvey Specter's Team -->
+        <div class="manager-section" data-manager="hs001">
+            <div class="manager-header" onclick="toggleManager('harvey')">
+                <div class="manager-info">
+                    <span class="manager-name">Harvey Specter</span>
+                    <span class="manager-stats">Senior Partner | 3 Direct Reports | 3 with Gaps</span>
+                </div>
+                <span class="expand-icon" id="icon-harvey">▶</span>
+            </div>
+            <div class="team-details" id="team-harvey">
+                <div class="content-panel team-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Employee Name</th>
+                                <th>Role</th>
+                                <th>Function</th>
+                                <th style="text-align: center;">Skills Tracked</th>
+                                <th>Current Readiness</th>
+                                <th>Future Readiness</th>
+                                <th style="width: 100px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-nbk="mr002" data-manager="hs001">
+                                <td>
+                                    <strong>Ross, Mike</strong>
+                                    <div style="font-size: 10px; color: #777;">NBK: mr002</div>
+                                </td>
+                                <td>Junior Associate</td>
+                                <td>Legal Research</td>
+                                <td style="text-align: center;">4</td>
+                                <td><span class="status-indicator status-warn">2 Gaps Identified</span></td>
+                                <td><span class="status-indicator status-err">3 Gaps Identified</span></td>
+                                <td><a href="delivery-lead-employee-details.html" class="btn btn-secondary">Details</a></td>
+                            </tr>
+                            <tr data-nbk="dp003" data-manager="hs001">
+                                <td>
+                                    <strong>Paulsen, Donna</strong>
+                                    <div style="font-size: 10px; color: #777;">NBK: dp003</div>
+                                </td>
+                                <td>COO</td>
+                                <td>Operations</td>
+                                <td style="text-align: center;">2</td>
+                                <td><span class="status-indicator status-ok">On Target</span></td>
+                                <td><span class="status-indicator status-warn">1 Gap Identified</span></td>
+                                <td><a href="delivery-lead-employee-details.html" class="btn btn-secondary">Details</a></td>
+                            </tr>
+                            <tr data-nbk="aw010" data-manager="hs001">
+                                <td>
+                                    <strong>Williams, Alex</strong>
+                                    <div style="font-size: 10px; color: #777;">NBK: aw010</div>
+                                </td>
+                                <td>Associate</td>
+                                <td>Legal Analysis</td>
+                                <td style="text-align: center;">2</td>
+                                <td><span class="status-indicator status-warn">2 Gaps Identified</span></td>
+                                <td><span class="status-indicator status-err">2 Gaps Identified</span></td>
+                                <td><a href="delivery-lead-employee-details.html" class="btn btn-secondary">Details</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Louis Litt's Team -->
+        <div class="manager-section" data-manager="ll004">
+            <div class="manager-header" onclick="toggleManager('louis')">
+                <div class="manager-info">
+                    <span class="manager-name">Louis Litt</span>
+                    <span class="manager-stats">Senior Partner | 3 Direct Reports | 2 with Gaps</span>
+                </div>
+                <span class="expand-icon" id="icon-louis">▶</span>
+            </div>
+            <div class="team-details" id="team-louis">
+                <div class="content-panel team-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Employee Name</th>
+                                <th>Role</th>
+                                <th>Function</th>
+                                <th style="text-align: center;">Skills Tracked</th>
+                                <th>Current Readiness</th>
+                                <th>Future Readiness</th>
+                                <th style="width: 100px;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr data-nbk="rz005" data-manager="ll004">
+                                <td>
+                                    <strong>Zane, Rachel</strong>
+                                    <div style="font-size: 10px; color: #777;">NBK: rz005</div>
+                                </td>
+                                <td>Paralegal</td>
+                                <td>Legal Research</td>
+                                <td style="text-align: center;">2</td>
+                                <td><span class="status-indicator status-ok">On Target</span></td>
+                                <td><span class="status-indicator status-warn">1 Gap Identified</span></td>
+                                <td><a href="delivery-lead-employee-details.html" class="btn btn-secondary">Details</a></td>
+                            </tr>
+                            <tr data-nbk="kb006" data-manager="ll004">
+                                <td>
+                                    <strong>Bennett, Katrina</strong>
+                                    <div style="font-size: 10px; color: #777;">NBK: kb006</div>
+                                </td>
+                                <td>Associate</td>
+                                <td>Corporate Law</td>
+                                <td style="text-align: center;">2</td>
+                                <td><span class="status-indicator status-warn">1 Gap Identified</span></td>
+                                <td><span class="status-indicator status-warn">1 Gap Identified</span></td>
+                                <td><a href="delivery-lead-employee-details.html" class="btn btn-secondary">Details</a></td>
+                            </tr>
+                            <tr data-nbk="sw011" data-manager="ll004">
+                                <td>
+                                    <strong>Wheeler, Samantha</strong>
+                                    <div style="font-size: 10px; color: #777;">NBK: sw011</div>
+                                </td>
+                                <td>Senior Associate</td>
+                                <td>M&A Law</td>
+                                <td style="text-align: center;">2</td>
+                                <td><span class="status-indicator status-warn">1 Gap Identified</span></td>
+                                <td><span class="status-indicator status-warn">2 Gaps Identified</span></td>
+                                <td><a href="delivery-lead-employee-details.html" class="btn btn-secondary">Details</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        &copy; 2026 Company Name Corporation. All rights reserved. For Internal Use Only.
+    </footer>
+
+    <script>
+        // Toggle manager section
+        function toggleManager(managerId) {
+            const teamDetails = document.getElementById(`team-${managerId}`);
+            const icon = document.getElementById(`icon-${managerId}`);
+
+            teamDetails.classList.toggle('expanded');
+            icon.classList.toggle('expanded');
+        }
+
+        // Filtering logic
+        const searchInput = document.getElementById('search-input');
+        const managerFilter = document.getElementById('manager-filter');
+        const employeeFilter = document.getElementById('employee-filter');
+        const managerSections = Array.from(document.querySelectorAll('.manager-section'));
+
+        function applyFilters() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const selectedManager = managerFilter.value;
+            const selectedEmployee = employeeFilter.value;
+
+            managerSections.forEach(section => {
+                const managerNbk = section.getAttribute('data-manager');
+                const employees = Array.from(section.querySelectorAll('tbody tr'));
+
+                // Check if manager should be shown
+                let showManager = true;
+                if (selectedManager && managerNbk !== selectedManager) {
+                    showManager = false;
+                }
+
+                // Filter employees within this manager's team
+                let visibleEmployees = 0;
+                employees.forEach(emp => {
+                    const empNbk = emp.getAttribute('data-nbk');
+                    const empText = emp.textContent.toLowerCase();
+
+                    let showEmployee = true;
+
+                    if (selectedEmployee && empNbk !== selectedEmployee) {
+                        showEmployee = false;
+                    }
+
+                    if (searchTerm && !empText.includes(searchTerm)) {
+                        showEmployee = false;
+                    }
+
+                    emp.style.display = showEmployee ? '' : 'none';
+                    if (showEmployee) visibleEmployees++;
+                });
+
+                // Hide manager section if no employees match or manager is filtered out
+                if (!showManager || (selectedEmployee && visibleEmployees === 0)) {
+                    section.style.display = 'none';
+                } else {
+                    section.style.display = '';
+
+                    // Auto-expand if filtering by employee
+                    if (selectedEmployee || searchTerm) {
+                        const managerId = managerNbk === 'hs001' ? 'harvey' : 'louis';
+                        const teamDetails = document.getElementById(`team-${managerId}`);
+                        const icon = document.getElementById(`icon-${managerId}`);
+                        if (!teamDetails.classList.contains('expanded')) {
+                            teamDetails.classList.add('expanded');
+                            icon.classList.add('expanded');
+                        }
+                    }
+                }
+            });
+        }
+
+        function clearFilters() {
+            searchInput.value = '';
+            managerFilter.value = '';
+            employeeFilter.value = '';
+            applyFilters();
+
+            // Collapse all sections
+            document.querySelectorAll('.team-details').forEach(td => td.classList.remove('expanded'));
+            document.querySelectorAll('.expand-icon').forEach(icon => icon.classList.remove('expanded'));
+        }
+
+        searchInput.addEventListener('keyup', applyFilters);
+        managerFilter.addEventListener('change', applyFilters);
+        employeeFilter.addEventListener('change', applyFilters);
+    </script>
+</body>
+</html>

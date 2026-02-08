@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - MyISP{% endblock %}
+
+{% block user_name %}Group Delivery Lead{% endblock %}
+
+{% block nav %}
+<nav class="global-nav">
+    <a href="{{ url_for('group_delivery_lead_dashboard', gdl='Daniel Hardman') }}">Global Overview</a>
+    <a href="{{ url_for('group_delivery_lead_reports') }}">Reports</a>
+    <a href="{{ url_for('group_delivery_lead_import_data') }}">Data Import</a>
+    <a href="{{ url_for('group_delivery_lead_settings') }}" class="active">Settings</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <h1 class="page-title">System Settings</h1>
+
+    <div class="content-panel">
+        <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">General Preferences</h3>
+        <form>
+            <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 15px;">
+                <label style="font-weight: bold; margin: 0;">Email Notifications:</label>
+                <div style="display: flex; align-items: center; gap: 10px;">
+                    <input type="radio" id="email-on" name="email-notif" value="on" checked>
+                    <label for="email-on" style="font-weight: normal; margin: 0;">On</label>
+                    <input type="radio" id="email-off" name="email-notif" value="off">
+                    <label for="email-off" style="font-weight: normal; margin: 0;">Off</label>
+                </div>
+            </div>
+            <button type="button" class="btn btn-primary">Save Settings</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

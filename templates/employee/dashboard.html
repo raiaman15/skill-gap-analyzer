@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}Employee Dashboard - MyISP{% endblock %}
+
+{% block user_name %}{{ employee.Name }} ({{ employee.Role }}){% endblock %}
+
+{% block nav %}
+<nav class="global-nav">
+    <a href="{{ url_for('employee_dashboard', nbk=employee.NBK) }}" class="active">Dashboard</a>
+    <a href="{{ url_for('employee_upskill_plan', nbk=employee.NBK) }}">Up-Skill Plan</a>
+    <a href="{{ url_for('employee_feedback', nbk=employee.NBK) }}">Manager Feedback</a>
+</nav>
+{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <h1 class="page-title">Employee Dashboard</h1>
+
+    <!-- Profile Section -->
+    <div class="content-panel" style="margin-bottom: 20px; padding: 15px 25px;">
+         <div style="display: flex; align-items: center; gap: 20px;">
+            <div style="width: 50px; height: 50px; background: #eee; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: #999; font-weight: bold;">
+                {{ employee.NBK[:2].upper() }}
+            </div>
+
+            <div style="flex: 1; display: flex; align-items: baseline; gap: 15px;">
+                <h2 style="margin: 0; font-size: 20px;">{{ employee.Name }}</h2>
+                <div style="font-size: 13px; color: #666;">
+                    <span style="font-weight: bold; color: #888; text-transform: uppercase; font-size: 11px; margin-right: 5px;">Reporting To:</span>
+                    {{ employee.MgrName }}
+                </div>
+            </div>
+         </div>
+    </div>
+
+    <!-- KPI Cards -->
+    <div class="kpi-row">
+        <div class="kpi-card">
+            <span class="kpi-value">{{ total_skills }}</span>
+            <span class="kpi-label">Skills Tracked</span>
+        </div>
+        <div class="kpi-card good">
+            <span class="kpi-value">{{ total_skills - current_gaps }}</span>
+            <span class="kpi-label">On-Target (Current)</span>
+        </div>
+        <div class="kpi-card {% if current_gaps > 0 %}alert{% endif %}">
+            <span class="kpi-value">{{ current_gaps }}</span>
+            <span class="kpi-label">Current Gaps</span>
+        </div>
+        <div class="kpi-card {% if future_gaps > 0 %}warn{% endif %}">
+            <span class="kpi-value">{{ future_gaps }}</span>
+            <span class="kpi-label">Future Gaps</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-panel">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3 style="margin: 0; font-size: 14px; text-transform: uppercase; color: #555;">Competency Matrix</h3>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Skill Name</th>
+                    <th>Current Level</th>
+                    <th>Expected (Now)</th>
+                    <th>Current Readiness</th>
+                    <th>Future Target</th>
+                    <th style="width: 120px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for skill in skills %}
+                <tr>
+                    <td>
+                        <strong>{{ skill.name }}</strong>
+                    </td>
+                    <td>{{ skill.current_prof }}</td>
+                    <td>{{ skill.expected_prof }}</td>
+                    <td>
+                        {% if skill.gap_current == 'Under-Skilled' %}
+                        <span class="status-indicator status-err">Under-Skilled</span>
+                        {% else %}
+                        <span class="status-indicator status-ok">On Target</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ skill.gap_future }}
+                        {% if skill.gap_future == 'Under-Skilled' %}
+                        <span style="display:block; font-size:9px; color: #da291c;">(Gap)</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if skill.gap_current == 'Under-Skilled' %}
+                        <a href="{{ url_for('employee_upskill_plan', nbk=employee.NBK) }}" class="btn btn-primary">Start Training</a>
+                        {% else %}
+                        <span style="color:#aaa;">-</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

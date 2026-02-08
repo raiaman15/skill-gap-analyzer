@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+
+{% block title %}Employee Details - MyISP{% endblock %}
+
+{% block user_name %}Delivery Lead{% endblock %}
+
+{% block nav %}
+<nav class="global-nav">
+    <a href="{{ url_for('delivery_lead_dashboard', dl='Robert Zane') }}">Organization Overview</a>
+    <a href="{{ url_for('delivery_lead_reports', dl='Robert Zane') }}">Reports</a>
+    <a href="{{ url_for('delivery_lead_import_data') }}">Data Import</a>
+    <a href="{{ url_for('delivery_lead_settings', dl='Robert Zane') }}">Settings</a>
+</nav>
+{% endblock %}
+
+{# Content is same as manager employee details, just different navigation #}
+{% block content %}
+<div class="main-container">
+    <div style="margin-bottom: 20px;">
+        <a href="{{ url_for('delivery_lead_dashboard', dl='Robert Zane') }}" style="color: var(--brand-link); text-decoration: none; font-size: 12px;">&larr; Back to Organization Overview</a>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+        <div>
+            <h1 class="page-title" style="margin-bottom: 5px; border: none;">{{ employee.Name }}</h1>
+            <div style="color: #666; font-size: 14px;">{{ employee.Role }} | NBK: {{ employee.NBK }}</div>
+        </div>
+    </div>
+
+    {% set current_gaps = skills|selectattr('gap_current', 'equalto', 'Under-Skilled')|list|length %}
+    {% set future_gaps = skills|selectattr('gap_future', 'equalto', 'Under-Skilled')|list|length %}
+    <div class="kpi-row">
+        <div class="kpi-card">
+            <span class="kpi-value">{{ skills|length }}</span>
+            <span class="kpi-label">Skills Tracked</span>
+        </div>
+        <div class="kpi-card {% if current_gaps > 0 %}alert{% endif %}">
+            <span class="kpi-value">{{ current_gaps }}</span>
+            <span class="kpi-label">Current Gap</span>
+        </div>
+        <div class="kpi-card {% if future_gaps > 0 %}warn{% endif %}">
+            <span class="kpi-value">{{ future_gaps }}</span>
+            <span class="kpi-label">Future Gaps</span>
+        </div>
+    </div>
+
+    <div class="content-panel">
+        <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">Competency Assessment</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Skill Name</th>
+                    <th>Current Level</th>
+                    <th>Expected (Now)</th>
+                    <th>Current Readiness</th>
+                    <th>Future Target</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for skill in skills %}
+                <tr>
+                    <td>
+                        <strong>{{ skill.name }}</strong>
+                        <div style="font-size: 10px; color: #777;">{{ skill.category }}</div>
+                    </td>
+                    <td>{{ skill.current_prof }}</td>
+                    <td>{{ skill.expected_prof }}</td>
+                    <td>
+                        {% if skill.gap_current == 'Under-Skilled' %}
+                        <span class="status-indicator status-err">Under-Skilled</span>
+                        {% else %}
+                        <span class="status-indicator status-ok">On Target</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ skill.expected_future }}
+                        {% if skill.gap_future == 'Under-Skilled' %}
+                        <span style="display:block; font-size:9px; color: #da291c;">(Gap)</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}MyISP{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+    <header>
+        <div class="brand-area">
+            <span class="logo-text">Company Name</span>
+            <span class="app-name">MyISP</span>
+        </div>
+        <div class="user-controls">
+            <span class="user-name">{% block user_name %}User{% endblock %}</span>
+            <a href="/" class="logout-link">Log Out</a>
+        </div>
+    </header>
+
+    {% block nav %}{% endblock %}
+
+    {% block content %}{% endblock %}
+
+    <footer>
+        &copy; 2026 Company Name Corporation. All rights reserved. For Internal Use Only.
+    </footer>
+
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
