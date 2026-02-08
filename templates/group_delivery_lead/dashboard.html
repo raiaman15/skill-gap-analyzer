@@ -215,6 +215,24 @@
             </span>
             <span class="kpi-label">Managers</span>
         </div>
+        <div class="kpi-card">
+             <span class="kpi-value">
+                {% set total_workforce = namespace(count=0) %}
+                {% for dh in dhs %}
+                    {% for dl in dh.dls %}
+                        {% for mgr in dl.managers %}
+                             {% set total_workforce.count = total_workforce.count + mgr.employees|length %}
+                        {% endfor %}
+                    {% endfor %}
+                {% endfor %}
+                {{ total_workforce.count }}
+            </span>
+            <span class="kpi-label">Total Workforce</span>
+        </div>
+        <div class="kpi-card alert">
+            <span class="kpi-value">60%</span>
+            <span class="kpi-label">Enterprise Gaps</span>
+        </div>
     </div>
 
     <!-- Search & Filter Card -->
@@ -311,20 +329,35 @@
                             <tr>
                                 <th>Employee</th>
                                 <th>Role</th>
-                                <th>Current Gaps</th>
+                                <th>Function</th>
+                                <th style="text-align: center;">Skills</th>
+                                <th>Current</th>
+                                <th>Future</th>
                                 <th style="width: 80px;">Actions</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for emp in manager.employees %}
                             <tr data-nbk="{{ emp.nbk }}">
-                                <td><strong>{{ emp.name }}</strong></td>
+                                <td>
+                                    <strong>{{ emp.name }}</strong>
+                                    <div style="font-size: 10px; color: #777;">{{ emp.nbk }}</div>
+                                </td>
                                 <td>{{ emp.role }}</td>
+                                <td>{{ emp.function }}</td>
+                                <td style="text-align: center;">{{ emp.total_skills }}</td>
                                 <td>
                                     {% if emp.current_gaps == 0 %}
-                                    <span class="status-indicator status-ok">0</span>
+                                    <span class="status-indicator status-ok">OK</span>
                                     {% else %}
                                     <span class="status-indicator status-warn">{{ emp.current_gaps }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if emp.future_gaps == 0 %}
+                                    <span class="status-indicator status-ok">OK</span>
+                                    {% else %}
+                                    <span class="status-indicator status-warn">{{ emp.future_gaps }}</span>
                                     {% endif %}
                                 </td>
                                 <td><a href="{{ url_for('group_delivery_lead_employee_details', nbk=emp.nbk) }}" class="btn btn-secondary" style="padding: 4px 8px; font-size: 11px;">View</a></td>

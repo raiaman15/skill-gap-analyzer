@@ -103,23 +103,40 @@
     <div class="content-panel" style="background: transparent; border: none; box-shadow: none; padding: 0;">
         <div class="feedback-timeline">
 
-            <div class="feedback-card">
-                <div class="feedback-header">
-                    <div>
-                        <span class="feedback-author">{{ employee.MgrName }}</span>
-                        <span class="feedback-type-badge">General</span>
+            {% if feedbacks and feedbacks|length > 0 %}
+                {% for fb in feedbacks %}
+                <div class="feedback-card">
+                    <div class="feedback-header">
+                        <div>
+                            <span class="feedback-author">{{ fb.given_by }}</span>
+                            <span class="feedback-type-badge {% if fb.feedback_type == 'Needs Improvement' %}type-improvement{% endif %}">{{ fb.feedback_type }}</span>
+                        </div>
+                        <span class="feedback-date">{{ fb.date }}</span>
                     </div>
-                    <span class="feedback-date">No feedback available</span>
+                    <div class="feedback-content">
+                        {{ fb.content }}
+                    </div>
                 </div>
-                <div class="feedback-content">
-                    Your manager has not provided any feedback yet. Feedback will appear here once submitted.
+                {% endfor %}
+            {% else %}
+                <div class="feedback-card">
+                    <div class="feedback-header">
+                        <div>
+                            <span class="feedback-author">{{ employee.MgrName }}</span>
+                            <span class="feedback-type-badge">General</span>
+                        </div>
+                        <span class="feedback-date">No feedback available</span>
+                    </div>
+                    <div class="feedback-content">
+                        Your manager has not provided any feedback yet. Feedback will appear here once submitted.
+                    </div>
                 </div>
-            </div>
+            {% endif %}
 
         </div>
 
         <div style="text-align: center; margin-top: 20px;">
-            <button class="btn btn-secondary" disabled>Load More History</button>
+            <button class="btn btn-secondary" {% if not feedbacks or feedbacks|length < 10 %}disabled{% endif %}>Load More History</button>
         </div>
     </div>
 </div>

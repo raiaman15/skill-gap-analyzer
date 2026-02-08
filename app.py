@@ -69,6 +69,35 @@ def get_employee_summary(df_subset):
 
     return employees
 
+def get_employee_details_context(nbk):
+    """Helper to get employee details context."""
+    emp_skills = df_data[df_data['NBK'] == nbk]
+    if emp_skills.empty:
+        return None
+
+    emp_info = emp_skills.iloc[0]
+    skills = []
+    for _, skill in emp_skills.iterrows():
+        skills.append({
+            'name': skill['SkillName'],
+            'type': skill['SkillType'],
+            'category': skill['EmpSkillCategory'],
+            'current_prof': skill['User Proficiency'],
+            'expected_prof': skill['Expected Current Prof'],
+            'gap_current': skill['GAP-Current'],
+            'expected_future': skill['Expected Future Prof'],
+            'gap_future': skill['GAP-Future']
+        })
+    
+    # Mock feedbacks for now (as per other templates)
+    feedbacks = []
+    
+    return {
+        'employee': emp_info.to_dict(),
+        'skills': skills,
+        'feedbacks': feedbacks
+    }
+
 # Index route
 @app.route('/')
 def index():
@@ -106,27 +135,13 @@ def manager_dashboard():
 @app.route('/manager/employee/<nbk>')
 def manager_employee_details(nbk):
     """Employee details view for manager."""
-    emp_skills = df_data[df_data['NBK'] == nbk]
-    if emp_skills.empty:
+    context = get_employee_details_context(nbk)
+    if not context:
         return "Employee not found", 404
 
-    emp_info = emp_skills.iloc[0]
-    skills = []
-    for _, skill in emp_skills.iterrows():
-        skills.append({
-            'name': skill['SkillName'],
-            'type': skill['SkillType'],
-            'category': skill['EmpSkillCategory'],
-            'current_prof': skill['User Proficiency'],
-            'expected_prof': skill['Expected Current Prof'],
-            'gap_current': skill['GAP-Current'],
-            'expected_future': skill['Expected Future Prof'],
-            'gap_future': skill['GAP-Future']
-        })
-
     return render_template('manager/employee_details.html',
-                         employee=emp_info.to_dict(),
-                         skills=skills)
+                         manager_name='Harvey Specter',
+                         **context)
 
 @app.route('/manager/reports')
 def manager_reports():
@@ -199,7 +214,13 @@ def delivery_lead_dashboard():
 @app.route('/delivery-lead/employee/<nbk>')
 def delivery_lead_employee_details(nbk):
     """Employee details view for delivery lead."""
-    return manager_employee_details(nbk)  # Same logic
+    context = get_employee_details_context(nbk)
+    if not context:
+        return "Employee not found", 404
+
+    return render_template('delivery_lead/employee_details.html',
+                         dl_name='Robert Zane',
+                         **context)
 
 @app.route('/delivery-lead/reports')
 def delivery_lead_reports():
@@ -270,7 +291,13 @@ def delivery_head_dashboard():
 @app.route('/delivery-head/employee/<nbk>')
 def delivery_head_employee_details(nbk):
     """Employee details view for delivery head."""
-    return manager_employee_details(nbk)
+    context = get_employee_details_context(nbk)
+    if not context:
+        return "Employee not found", 404
+
+    return render_template('delivery_head/employee_details.html',
+                         dh_name='Jessica Pearson',
+                         **context)
 
 @app.route('/delivery-head/reports')
 def delivery_head_reports():
@@ -339,7 +366,13 @@ def group_delivery_lead_dashboard():
 @app.route('/group-delivery-lead/employee/<nbk>')
 def group_delivery_lead_employee_details(nbk):
     """Employee details view for group delivery lead."""
-    return manager_employee_details(nbk)
+    context = get_employee_details_context(nbk)
+    if not context:
+        return "Employee not found", 404
+
+    return render_template('group_delivery_lead/employee_details.html',
+                         gdl_name='Daniel Hardman',
+                         **context)
 
 @app.route('/group-delivery-lead/reports')
 def group_delivery_lead_reports():
@@ -416,7 +449,7 @@ def employee_upskill_plan():
         return "Employee not found", 404
 
     emp_info = emp_df.iloc[0]
-    # Get skills with gaps
+    # Get skills with current gaps
     skills_with_gaps = emp_df[emp_df['GAP-Current'] == 'Under-Skilled']
 
     gap_skills = []
@@ -427,9 +460,25 @@ def employee_upskill_plan():
             'target': skill['Expected Current Prof']
         })
 
+    # Get skills with future gaps (excluding those already in current gaps)
+    current_gap_names = set(s['name'] for s in gap_skills)
+    future_with_gaps = emp_df[
+        (emp_df['GAP-Future'] == 'Under-Skilled') &
+        (~emp_df['SkillName'].isin(current_gap_names))
+    ]
+
+    future_gap_skills = []
+    for _, skill in future_with_gaps.iterrows():
+        future_gap_skills.append({
+            'name': skill['SkillName'],
+            'current': skill['User Proficiency'],
+            'target': skill['Expected Future Prof']
+        })
+
     return render_template('employee/upskill_plan.html',
                          employee=emp_info.to_dict(),
-                         gap_skills=gap_skills)
+                         gap_skills=gap_skills,
+                         future_gap_skills=future_gap_skills)
 
 if __name__ == '__main__':
     app.run(debug=True, port=8080)

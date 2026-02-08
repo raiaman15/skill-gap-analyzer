@@ -198,18 +198,35 @@
         <h3 style="margin: 20px 0 10px 0; font-size: 14px; text-transform: uppercase; color: #555;">Feedback History</h3>
 
         <div class="feedback-timeline">
-            <div class="feedback-card">
-                <div class="feedback-header">
-                    <div>
-                        <span class="feedback-author">{{ employee.MgrName }}</span>
-                        <span class="feedback-type-badge">General</span>
+            {% if feedbacks and feedbacks|length > 0 %}
+                {% for fb in feedbacks %}
+                <div class="feedback-card">
+                    <div class="feedback-header">
+                        <div>
+                            <span class="feedback-author">{{ fb.given_by }}</span>
+                            <span class="feedback-type-badge {% if fb.feedback_type == 'Needs Improvement' %}type-improvement{% endif %}">{{ fb.feedback_type }}</span>
+                        </div>
+                        <span class="feedback-date">{{ fb.date }}</span>
                     </div>
-                    <span class="feedback-date">No feedback history available</span>
+                    <div class="feedback-content">
+                        {{ fb.content }}
+                    </div>
                 </div>
-                <div class="feedback-content">
-                    Use the form above to provide feedback for this employee.
+                {% endfor %}
+            {% else %}
+                <div class="feedback-card">
+                    <div class="feedback-header">
+                        <div>
+                            <span class="feedback-author">{{ employee.MgrName }}</span>
+                            <span class="feedback-type-badge">General</span>
+                        </div>
+                        <span class="feedback-date">No feedback history available</span>
+                    </div>
+                    <div class="feedback-content">
+                        Use the form above to provide feedback for this employee.
+                    </div>
                 </div>
-            </div>
+            {% endif %}
         </div>
     </div>
 

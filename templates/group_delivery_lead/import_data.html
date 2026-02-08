@@ -1,4 +1,6 @@
-{% extends "manager/import_data.html" %}
+{% extends "base.html" %}
+
+{% block title %}Data Import - MyISP{% endblock %}
 
 {% block user_name %}Group Delivery Lead{% endblock %}
 
@@ -9,4 +11,183 @@
     <a href="{{ url_for('group_delivery_lead_import_data') }}" class="active">Data Import</a>
     <a href="{{ url_for('group_delivery_lead_settings') }}">Settings</a>
 </nav>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .drop-zone {
+        border: 2px dashed #ccc;
+        padding: 50px;
+        text-align: center;
+        background: #fafafa;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .drop-zone:hover {
+        background: #f0f8ff;
+        border-color: var(--brand-link);
+    }
+
+    .upload-icon {
+        font-size: 32px;
+        color: #999;
+        margin-bottom: 10px;
+        display: block;
+    }
+
+    #preview-table thead th {
+        white-space: nowrap;
+        position: sticky;
+        top: 0;
+        background: #e6e6e6;
+        z-index: 10;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <h1 class="page-title">Import Global Enterprise Data</h1>
+
+    <div class="content-panel">
+        <h3 style="margin: 0 0 10px 0; font-size: 14px; text-transform: uppercase; color: #555;">Upload Source File</h3>
+        <p style="margin-bottom: 20px; font-size: 12px; color: #666;">
+            Upload a CSV file to update global employee skill records.
+            Please ensure the file adheres to the <a href="#" style="color:var(--brand-link);">Standard Data Schema v2.1</a>.
+        </p>
+
+        <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()" style="padding: 40px 20px;">
+            <div style="color: var(--brand-link); margin-bottom: 10px;">
+                <svg style="width: 80px; height: 80px; opacity: 0.6;" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2h-8l-2-2z"/>
+                </svg>
+            </div>
+            <p style="font-size: 16px; color: #333; margin: 0 0 5px 0;"><strong>Drag & Drop CSV file here</strong></p>
+            <p style="font-size: 12px; color: #666; margin: 0;">or click to browse your computer</p>
+            <input type="file" id="file-input" accept=".csv" style="display: none;">
+        </div>
+
+        <div id="file-info" style="margin-top: 20px; display: none; background: #e6f4ea; padding: 15px; border: 1px solid #bce2c7;">
+            <div style="display: flex; align-items: center; justify-content: space-between;">
+                <div>
+                    <strong style="color: var(--status-green);">File Selected:</strong> <span id="filename" style="margin-left: 5px;">data.csv</span>
+                    <span id="row-count" style="margin-left: 15px; font-size: 11px; color: #666;"></span>
+                </div>
+                <div>
+                    <button class="btn btn-secondary" onclick="location.reload()" style="margin-right: 10px;">Clear</button>
+                    <button class="btn btn-primary">Process Import</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="content-panel" id="preview-section" style="opacity: 0.5; pointer-events: none;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h3 style="margin: 0; font-size: 14px; text-transform: uppercase; color: #555;">Data Preview (All Columns, Up to 1000 Rows)</h3>
+        </div>
+
+        <div class="table-responsive" style="max-height: 600px; overflow-y: auto;">
+            <table id="preview-table">
+                <thead>
+                    <tr id="table-header">
+                        <th style="text-align: center; padding: 30px;" colspan="6">No file loaded. Waiting for upload...</th>
+                    </tr>
+                </thead>
+                <tbody id="table-body">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const fileInfo = document.getElementById('file-info');
+    const filenameSpan = document.getElementById('filename');
+    const rowCountSpan = document.getElementById('row-count');
+    const previewSection = document.getElementById('preview-section');
+    const tableHeader = document.getElementById('table-header');
+    const tableBody = document.getElementById('table-body');
+
+    dropZone.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dropZone.style.background = '#e6f4ea';
+        dropZone.style.borderColor = '#008542';
+    });
+
+    dropZone.addEventListener('dragleave', (e) => {
+        e.preventDefault();
+        dropZone.style.background = '#fafafa';
+        dropZone.style.borderColor = '#ccc';
+    });
+
+    dropZone.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dropZone.style.background = '#fafafa';
+        dropZone.style.borderColor = '#ccc';
+        if (e.dataTransfer.files.length) {
+            handleFile(e.dataTransfer.files[0]);
+        }
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        if (fileInput.files.length) {
+            handleFile(fileInput.files[0]);
+        }
+    });
+
+    function handleFile(file) {
+        if (!file.name.endsWith('.csv')) {
+            alert('Please upload a valid CSV file.');
+            return;
+        }
+
+        filenameSpan.textContent = file.name;
+        fileInfo.style.display = 'block';
+        previewSection.style.opacity = '1';
+        previewSection.style.pointerEvents = 'auto';
+
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const text = e.target.result;
+            const rows = parseCSV(text);
+
+            if (rows.length > 0) {
+                renderPreview(rows);
+                rowCountSpan.textContent = `| Total Rows Found: ${rows.length - 1}`;
+            }
+        };
+        reader.readAsText(file);
+    }
+
+    function parseCSV(text) {
+        const lines = text.split(/\r?\n/);
+        return lines.filter(line => line.trim() !== '').map(line => {
+            return line.split(',').map(cell => cell.trim());
+        });
+    }
+
+    function renderPreview(rows) {
+        const headers = rows[0];
+        const dataRows = rows.slice(1, 1001);
+
+        tableHeader.innerHTML = headers.map(h => `<th>${escapeHtml(h)}</th>`).join('');
+
+        tableBody.innerHTML = dataRows.map(row => {
+            return `<tr>${row.map(cell => `<td>${escapeHtml(cell)}</td>`).join('')}</tr>`;
+        }).join('');
+    }
+
+    function escapeHtml(text) {
+        if (typeof text !== 'string') return text;
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+</script>
 {% endblock %}

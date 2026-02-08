@@ -21,9 +21,9 @@ These must be done before any new feature work so the codebase is in a clean sta
 
 ### 0.1 [P0] Remove orphaned `public/` directory
 The 25 static HTML prototypes are no longer served by Flask. They are dead code.
-- [ ] Verify no Flask route references `public/`
-- [ ] Delete `public/` directory entirely (or move to an `archive/` folder if you want to keep history)
-- [ ] Remove empty `public/assets/` and `public/js/` directories
+- [x] Verify no Flask route references `public/`
+- [x] Delete `public/` directory entirely (or move to an `archive/` folder if you want to keep history)
+- [x] Remove empty `public/assets/` and `public/js/` directories
 
 ### 0.2 [P0] Fix `sample.csv` naming inconsistency
 PRD §4.4 says "defaults to `sample.csv`" but the file is `sample_data.csv`.

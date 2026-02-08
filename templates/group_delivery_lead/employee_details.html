@@ -1,10 +1,247 @@
-{% extends "delivery_lead/employee_details.html" %}
+{% extends "base.html" %}
+
+{% block title %}Employee Details - MyISP{% endblock %}
+
+{% block user_name %}{{ gdl_name }} (Group Delivery Lead){% endblock %}
 
 {% block nav %}
 <nav class="global-nav">
-    <a href="{{ url_for('group_delivery_lead_dashboard', gdl='Daniel Hardman') }}">Global Overview</a>
+    <a href="{{ url_for('group_delivery_lead_dashboard', gdl=gdl_name) }}">Global Overview</a>
     <a href="{{ url_for('group_delivery_lead_reports') }}">Reports</a>
     <a href="{{ url_for('group_delivery_lead_import_data') }}">Data Import</a>
     <a href="{{ url_for('group_delivery_lead_settings') }}">Settings</a>
 </nav>
+{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .profile-table td {
+        padding: 8px 12px;
+        border: none;
+        font-size: 13px;
+    }
+
+    .profile-table td:first-child {
+        font-weight: bold;
+        color: #555;
+        width: 160px;
+        text-transform: uppercase;
+        font-size: 11px;
+    }
+
+    .feedback-timeline {
+        position: relative;
+        padding-left: 30px;
+        margin-top: 20px;
+    }
+
+    .feedback-timeline::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 10px;
+        width: 2px;
+        background: #e0e0e0;
+    }
+
+    .feedback-card {
+        position: relative;
+        background: white;
+        border: 1px solid #dcdcdc;
+        border-radius: 4px;
+        padding: 20px;
+        margin-bottom: 20px;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    }
+
+    .feedback-card::before {
+        content: '';
+        position: absolute;
+        top: 25px;
+        left: -26px;
+        width: 14px;
+        height: 14px;
+        background: var(--brand-dark-blue);
+        border: 3px solid #f2f2f2;
+        border-radius: 50%;
+        z-index: 1;
+    }
+
+    .feedback-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    .feedback-author {
+        font-weight: bold;
+        color: var(--brand-dark-blue);
+        font-size: 14px;
+    }
+
+    .feedback-date {
+        font-size: 11px;
+        color: #666;
+    }
+
+    .feedback-content {
+        font-size: 13px;
+        color: #333;
+        line-height: 1.5;
+    }
+
+    .feedback-type-badge {
+        font-size: 10px;
+        padding: 2px 6px;
+        border-radius: 4px;
+        background: #e6f4ea;
+        color: var(--status-green);
+        margin-left: 10px;
+        text-transform: uppercase;
+    }
+
+    .type-improvement {
+        background: #fff3cd;
+        color: #856404;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="main-container">
+    <div style="margin-bottom: 20px;">
+        <a href="{{ url_for('group_delivery_lead_dashboard', gdl=gdl_name) }}" style="color: var(--brand-link); text-decoration: none; font-size: 12px;">&larr; Back to Global Overview</a>
+    </div>
+
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 20px;">
+        <div>
+            <h1 class="page-title" style="margin-bottom: 5px; border: none;">{{ employee.Name }}</h1>
+            <div style="color: #666; font-size: 14px;">{{ employee.Role }} | NBK: {{ employee.NBK }}</div>
+        </div>
+    </div>
+
+    <!-- Profile Information -->
+    <div class="content-panel">
+        <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">Profile Information</h3>
+        <table class="profile-table">
+            <tr><td>Name</td><td>{{ employee.Name }}</td></tr>
+            <tr><td>NBK</td><td>{{ employee.NBK }}</td></tr>
+            <tr><td>Role</td><td>{{ employee.Role }}</td></tr>
+            <tr><td>Email</td><td>{{ employee.Email }}</td></tr>
+            <tr><td>Function</td><td>{{ employee.FunctionName }}</td></tr>
+            <tr><td>Type</td><td>{{ employee['PM/IC'] }}</td></tr>
+            <tr><td>Manager</td><td>{{ employee.MgrName }}</td></tr>
+            <tr><td>Delivery Lead</td><td>{{ employee.DLName }}</td></tr>
+        </table>
+    </div>
+
+    {% set current_gaps = skills|selectattr('gap_current', 'equalto', 'Under-Skilled')|list|length %}
+    {% set future_gaps = skills|selectattr('gap_future', 'equalto', 'Under-Skilled')|list|length %}
+    <div class="kpi-row">
+        <div class="kpi-card">
+            <span class="kpi-value">{{ skills|length }}</span>
+            <span class="kpi-label">Skills Tracked</span>
+        </div>
+        <div class="kpi-card {% if current_gaps > 0 %}alert{% endif %}">
+            <span class="kpi-value">{{ current_gaps }}</span>
+            <span class="kpi-label">Current Gap</span>
+        </div>
+        <div class="kpi-card {% if future_gaps > 0 %}warn{% endif %}">
+            <span class="kpi-value">{{ future_gaps }}</span>
+            <span class="kpi-label">Future Gaps</span>
+        </div>
+    </div>
+
+    <div class="content-panel">
+        <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">Skill Assessment</h3>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Skill Name</th>
+                    <th>Skill Type</th>
+                    <th>Category</th>
+                    <th>Current Level</th>
+                    <th>Expected Level</th>
+                    <th>Current Status</th>
+                    <th>Future Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for skill in skills %}
+                <tr>
+                    <td><strong>{{ skill.name }}</strong></td>
+                    <td>{{ skill.type }}</td>
+                    <td>{{ skill.category }}</td>
+                    <td>{{ skill.current_prof }}</td>
+                    <td>{{ skill.expected_prof }}</td>
+                    <td>
+                        {% if skill.gap_current == 'Under-Skilled' %}
+                        <span class="status-indicator status-err">Under-Skilled</span>
+                        {% else %}
+                        <span class="status-indicator status-ok">On Target</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if skill.gap_future == 'Under-Skilled' %}
+                        <span class="status-indicator status-warn">Under-Skilled</span>
+                        {% elif skill.gap_future == 'On-Target' %}
+                        <span class="status-indicator status-ok">On Target</span>
+                        {% else %}
+                        {{ skill.gap_future }}
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Feedback History -->
+    <div class="content-panel">
+        <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">Feedback History</h3>
+
+        <div class="feedback-timeline">
+            {% if feedbacks and feedbacks|length > 0 %}
+                {% for fb in feedbacks %}
+                <div class="feedback-card">
+                    <div class="feedback-header">
+                        <div>
+                            <span class="feedback-author">{{ fb.given_by }}</span>
+                            <span class="feedback-type-badge {% if fb.feedback_type == 'Needs Improvement' %}type-improvement{% endif %}">{{ fb.feedback_type }}</span>
+                        </div>
+                        <span class="feedback-date">{{ fb.date }}</span>
+                    </div>
+                    <div class="feedback-content">
+                        {{ fb.content }}
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="feedback-card">
+                    <div class="feedback-header">
+                        <div>
+                            <span class="feedback-author">{{ employee.MgrName }}</span>
+                            <span class="feedback-type-badge">General</span>
+                        </div>
+                        <span class="feedback-date">No feedback history available</span>
+                    </div>
+                    <div class="feedback-content">
+                        No feedback records found for this employee.
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+</div>
 {% endblock %}

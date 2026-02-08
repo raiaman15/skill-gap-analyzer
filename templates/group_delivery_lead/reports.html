@@ -17,10 +17,153 @@
 <div class="main-container">
     <h1 class="page-title">Global Enterprise Reports</h1>
 
+    <!-- Report Actions -->
+    <div class="content-panel">
+        <h3>Generate Reports</h3>
+        <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
+            <button class="btn btn-primary">Export Enterprise Data (CSV)</button>
+            <button class="btn btn-secondary">Export Skills Summary (PDF)</button>
+            <button class="btn btn-secondary">Export Strategic Dashboard (PDF)</button>
+            <button class="btn btn-secondary">Export Organizational Health Report (XLSX)</button>
+        </div>
+    </div>
+
+    <!-- Enterprise Summary -->
+    <div class="content-panel">
+        <h3>Enterprise Summary</h3>
+        <table style="width: 100%; border: none;">
+            <tr style="border: none;">
+                <td style="border: none; padding: 8px 0;"><strong>Total Delivery Heads:</strong></td>
+                <td style="border: none; padding: 8px 0;">1</td>
+                <td style="border: none; padding: 8px 0;"><strong>Total Delivery Leads:</strong></td>
+                <td style="border: none; padding: 8px 0;">1</td>
+            </tr>
+            <tr style="border: none;">
+                <td style="border: none; padding: 8px 0;"><strong>Total Managers:</strong></td>
+                <td style="border: none; padding: 8px 0;">2</td>
+                <td style="border: none; padding: 8px 0;"><strong>Total Workforce:</strong></td>
+                <td style="border: none; padding: 8px 0;">13</td>
+            </tr>
+            <tr style="border: none;">
+                <td style="border: none; padding: 8px 0;"><strong>Skills On-Target:</strong></td>
+                <td style="border: none; padding: 8px 0;">40%</td>
+                <td style="border: none; padding: 8px 0;"><strong>Skills With Gaps:</strong></td>
+                <td style="border: none; padding: 8px 0;">60%</td>
+            </tr>
+            <tr style="border: none;">
+                <td style="border: none; padding: 8px 0;"><strong>High Priority Gaps:</strong></td>
+                <td style="border: none; padding: 8px 0;">6</td>
+                <td style="border: none; padding: 8px 0;"><strong>Medium Priority Gaps:</strong></td>
+                <td style="border: none; padding: 8px 0;">5</td>
+            </tr>
+            <tr style="border: none;">
+                <td style="border: none; padding: 8px 0;"><strong>Low Priority Gaps:</strong></td>
+                <td style="border: none; padding: 8px 0;">2</td>
+                <td style="border: none; padding: 8px 0;"><strong>Average Team Size:</strong></td>
+                <td style="border: none; padding: 8px 0;">6.5</td>
+            </tr>
+        </table>
+    </div>
+
     <div class="content-panel">
         <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">Global Skill Analysis</h3>
         <div style="height: 200px; background: #fafafa; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; color: #999;">
             [Interactive Chart Component Placeholder]
+        </div>
+    </div>
+
+    <!-- Strategic Skills Gaps -->
+    <div class="content-panel">
+        <h3>Strategic Skills Requiring Attention</h3>
+        <p style="font-size: 12px; color: #666; margin-bottom: 15px;">High-priority skill gaps across the enterprise</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee Name</th>
+                    <th>Delivery Head</th>
+                    <th>Delivery Lead</th>
+                    <th>Manager</th>
+                    <th>Skill Name</th>
+                    <th>Current</th>
+                    <th>Expected</th>
+                    <th>Priority</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Placeholder rows -->
+                <tr>
+                    <td><strong>Ross, Mike</strong></td>
+                    <td>Jessica Pearson</td>
+                    <td>Robert Zane</td>
+                    <td>Harvey Specter</td>
+                    <td>Legal Research</td>
+                    <td>Level 2</td>
+                    <td>Level 3</td>
+                    <td><span class="status-indicator status-err">High</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Williams, Alex</strong></td>
+                    <td>Jessica Pearson</td>
+                    <td>Robert Zane</td>
+                    <td>Harvey Specter</td>
+                    <td>Legal Analysis</td>
+                    <td>Level 2</td>
+                    <td>Level 3</td>
+                    <td><span class="status-indicator status-err">High</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Bennett, Katrina</strong></td>
+                    <td>Jessica Pearson</td>
+                    <td>Robert Zane</td>
+                    <td>Louis Litt</td>
+                    <td>Contract Negotiation</td>
+                    <td>Level 2</td>
+                    <td>Level 3</td>
+                    <td><span class="status-indicator status-err">High</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Wheeler, Samantha</strong></td>
+                    <td>Jessica Pearson</td>
+                    <td>Robert Zane</td>
+                    <td>Louis Litt</td>
+                    <td>M&A</td>
+                    <td>Level 3</td>
+                    <td>Level 4</td>
+                    <td><span class="status-indicator status-warn">Medium</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Pearson, Jessica</strong></td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>Business Development</td>
+                    <td>Level 3</td>
+                    <td>Level 4</td>
+                    <td><span class="status-indicator status-warn">Medium</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Zane, Robert</strong></td>
+                    <td>Jessica Pearson</td>
+                    <td>N/A</td>
+                    <td>N/A</td>
+                    <td>Strategic Planning</td>
+                    <td>Level 2</td>
+                    <td>Level 3</td>
+                    <td><span class="status-indicator status-err">High</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Organizational Health Trends -->
+    <div class="content-panel">
+        <h3>Organizational Health Trends</h3>
+        <p style="font-size: 12px; color: #666; margin-bottom: 20px;">Quarterly trends in skill development across the enterprise</p>
+
+        <div style="background: #f5f5f5; padding: 30px; text-align: center; border-radius: 5px;">
+            <p style="color: #999; font-size: 14px;">[Trend Chart Placeholder]</p>
+            <p style="color: #999; font-size: 12px;">Quarterly trend visualization will appear here</p>
         </div>
     </div>
 </div>

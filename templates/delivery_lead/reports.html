@@ -18,6 +18,14 @@
     <h1 class="page-title">Organization Reports</h1>
 
     <div class="content-panel">
+        <h3>Generate Reports</h3>
+        <div style="display: flex; gap: 10px; margin-top: 15px;">
+            <button class="btn btn-primary">Export Organization Data (CSV)</button>
+            <button class="btn btn-secondary">Export Skills Summary (PDF)</button>
+        </div>
+    </div>
+
+    <div class="content-panel">
         <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">Organization Summary</h3>
         <div class="kpi-row">
             <div class="kpi-card">
@@ -33,6 +41,30 @@
                 <span class="kpi-label">Current Skill Gaps</span>
             </div>
         </div>
+        
+        <!-- Detailed Org Summary Table from Prototype -->
+        <div style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
+            <table style="width: 100%; border: none;">
+                <tr style="border: none;">
+                    <td style="border: none; padding: 8px 0;"><strong>Total Managers:</strong></td>
+                    <td style="border: none; padding: 8px 0;">2</td> <!-- Placeholder -->
+                    <td style="border: none; padding: 8px 0;"><strong>Total Team Members:</strong></td>
+                    <td style="border: none; padding: 8px 0;">{{ total_employees }}</td>
+                </tr>
+                <tr style="border: none;">
+                    <td style="border: none; padding: 8px 0;"><strong>Skills On-Target:</strong></td>
+                    <td style="border: none; padding: 8px 0;">45%</td> <!-- Placeholder -->
+                    <td style="border: none; padding: 8px 0;"><strong>Skills With Gaps:</strong></td>
+                    <td style="border: none; padding: 8px 0;">55%</td> <!-- Placeholder -->
+                </tr>
+                <tr style="border: none;">
+                    <td style="border: none; padding: 8px 0;"><strong>High Priority Gaps:</strong></td>
+                    <td style="border: none; padding: 8px 0;">4</td> <!-- Placeholder -->
+                    <td style="border: none; padding: 8px 0;"><strong>Medium Priority Gaps:</strong></td>
+                    <td style="border: none; padding: 8px 0;">3</td> <!-- Placeholder -->
+                </tr>
+            </table>
+        </div>
     </div>
 
     <div class="content-panel">
@@ -42,10 +74,81 @@
         </div>
     </div>
 
+    <!-- Skills Requiring Attention Table -->
     <div class="content-panel">
-        <div style="margin-top: 15px;">
-            <button class="btn btn-secondary">Export to CSV</button>
-        </div>
+        <h3>Skills Requiring Attention</h3>
+        <p style="font-size: 12px; color: #666; margin-bottom: 15px;">Employees with current skill gaps</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee Name</th>
+                    <th>Manager</th>
+                    <th>Skill Name</th>
+                    <th>Current Level</th>
+                    <th>Expected Level</th>
+                    <th>Gap Type</th>
+                    <th>Priority</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Placeholder rows from prototype until backend data is available -->
+                <tr>
+                    <td><strong>Ross, Mike</strong></td>
+                    <td>Harvey Specter</td>
+                    <td>Legal Research</td>
+                    <td>Level 2: Intermediate</td>
+                    <td>Level 3: Expert</td>
+                    <td><span class="status-indicator status-warn">Current Gap</span></td>
+                    <td>High</td>
+                </tr>
+                <tr>
+                    <td><strong>Ross, Mike</strong></td>
+                    <td>Harvey Specter</td>
+                    <td>Client Negotiation</td>
+                    <td>Level 1: Novice</td>
+                    <td>Level 2: Intermediate</td>
+                    <td><span class="status-indicator status-warn">Current Gap</span></td>
+                    <td>Medium</td>
+                </tr>
+                <tr>
+                    <td><strong>Williams, Alex</strong></td>
+                    <td>Harvey Specter</td>
+                    <td>Legal Analysis</td>
+                    <td>Level 2: Intermediate</td>
+                    <td>Level 3: Expert</td>
+                    <td><span class="status-indicator status-warn">Current Gap</span></td>
+                    <td>High</td>
+                </tr>
+                <tr>
+                    <td><strong>Williams, Alex</strong></td>
+                    <td>Harvey Specter</td>
+                    <td>Case Management</td>
+                    <td>Level 1: Novice</td>
+                    <td>Level 2: Intermediate</td>
+                    <td><span class="status-indicator status-warn">Current Gap</span></td>
+                    <td>Medium</td>
+                </tr>
+                <tr>
+                    <td><strong>Bennett, Katrina</strong></td>
+                    <td>Louis Litt</td>
+                    <td>Contract Negotiation</td>
+                    <td>Level 2: Intermediate</td>
+                    <td>Level 3: Expert</td>
+                    <td><span class="status-indicator status-warn">Current Gap</span></td>
+                    <td>High</td>
+                </tr>
+                <tr>
+                    <td><strong>Wheeler, Samantha</strong></td>
+                    <td>Louis Litt</td>
+                    <td>Mergers & Acquisitions</td>
+                    <td>Level 3: Expert</td>
+                    <td>Level 4: Master</td>
+                    <td><span class="status-indicator status-warn">Current Gap</span></td>
+                    <td>Medium</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 {% endblock %}

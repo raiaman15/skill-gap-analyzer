@@ -17,6 +17,16 @@
 <div class="main-container">
     <h1 class="page-title">Enterprise Reports</h1>
 
+    <!-- Report Actions -->
+    <div class="content-panel">
+        <h3>Generate Reports</h3>
+        <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
+            <button class="btn btn-primary">Export Organization Data (CSV)</button>
+            <button class="btn btn-secondary">Export Skills Summary (PDF)</button>
+            <button class="btn btn-secondary">Export Executive Dashboard (PDF)</button>
+        </div>
+    </div>
+
     <div class="content-panel">
         <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">Organization Summary</h3>
         <div class="kpi-row">
@@ -24,6 +34,45 @@
                 <span class="kpi-value">{{ total_employees }}</span>
                 <span class="kpi-label">Total Employees</span>
             </div>
+            <!-- Additional KPIs from prototype -->
+            <div class="kpi-card">
+                <span class="kpi-value">2</span>
+                <span class="kpi-label">Total Managers</span>
+            </div>
+             <div class="kpi-card alert">
+                <span class="kpi-value">58%</span>
+                <span class="kpi-label">Skills With Gaps</span>
+            </div>
+        </div>
+        
+        <!-- Detailed Org Summary Table -->
+        <div style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
+            <table style="width: 100%; border: none;">
+                <tr style="border: none;">
+                    <td style="border: none; padding: 8px 0;"><strong>Total Delivery Leads:</strong></td>
+                    <td style="border: none; padding: 8px 0;">1</td>
+                    <td style="border: none; padding: 8px 0;"><strong>Total Managers:</strong></td>
+                    <td style="border: none; padding: 8px 0;">2</td>
+                </tr>
+                <tr style="border: none;">
+                    <td style="border: none; padding: 8px 0;"><strong>Total Team Members:</strong></td>
+                    <td style="border: none; padding: 8px 0;">{{ total_employees }}</td>
+                    <td style="border: none; padding: 8px 0;"><strong>Skills On-Target:</strong></td>
+                    <td style="border: none; padding: 8px 0;">42%</td>
+                </tr>
+                <tr style="border: none;">
+                    <td style="border: none; padding: 8px 0;"><strong>Skills With Gaps:</strong></td>
+                    <td style="border: none; padding: 8px 0;">58%</td>
+                    <td style="border: none; padding: 8px 0;"><strong>High Priority Gaps:</strong></td>
+                    <td style="border: none; padding: 8px 0;">5</td>
+                </tr>
+                <tr style="border: none;">
+                    <td style="border: none; padding: 8px 0;"><strong>Medium Priority Gaps:</strong></td>
+                    <td style="border: none; padding: 8px 0;">4</td>
+                    <td style="border: none; padding: 8px 0;"><strong>Low Priority Gaps:</strong></td>
+                    <td style="border: none; padding: 8px 0;">2</td>
+                </tr>
+            </table>
         </div>
     </div>
 
@@ -32,6 +81,74 @@
         <div style="height: 200px; background: #fafafa; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; color: #999;">
             [Interactive Chart Component Placeholder]
         </div>
+    </div>
+
+    <!-- Critical Skills Gaps -->
+    <div class="content-panel">
+        <h3>Critical Skills Requiring Attention</h3>
+        <p style="font-size: 12px; color: #666; margin-bottom: 15px;">High-priority skill gaps across the organization</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Employee Name</th>
+                    <th>Manager</th>
+                    <th>Delivery Lead</th>
+                    <th>Skill Name</th>
+                    <th>Current Level</th>
+                    <th>Expected Level</th>
+                    <th>Priority</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Placeholder rows -->
+                <tr>
+                    <td><strong>Ross, Mike</strong></td>
+                    <td>Harvey Specter</td>
+                    <td>Robert Zane</td>
+                    <td>Legal Research</td>
+                    <td>Level 2: Intermediate</td>
+                    <td>Level 3: Expert</td>
+                    <td><span class="status-indicator status-err">High</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Williams, Alex</strong></td>
+                    <td>Harvey Specter</td>
+                    <td>Robert Zane</td>
+                    <td>Legal Analysis</td>
+                    <td>Level 2: Intermediate</td>
+                    <td>Level 3: Expert</td>
+                    <td><span class="status-indicator status-err">High</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Bennett, Katrina</strong></td>
+                    <td>Louis Litt</td>
+                    <td>Robert Zane</td>
+                    <td>Contract Negotiation</td>
+                    <td>Level 2: Intermediate</td>
+                    <td>Level 3: Expert</td>
+                    <td><span class="status-indicator status-err">High</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Wheeler, Samantha</strong></td>
+                    <td>Louis Litt</td>
+                    <td>Robert Zane</td>
+                    <td>Mergers & Acquisitions</td>
+                    <td>Level 3: Expert</td>
+                    <td>Level 4: Master</td>
+                    <td><span class="status-indicator status-warn">Medium</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Ross, Mike</strong></td>
+                    <td>Harvey Specter</td>
+                    <td>Robert Zane</td>
+                    <td>Client Negotiation</td>
+                    <td>Level 1: Novice</td>
+                    <td>Level 2: Intermediate</td>
+                    <td><span class="status-indicator status-warn">Medium</span></td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 {% endblock %}

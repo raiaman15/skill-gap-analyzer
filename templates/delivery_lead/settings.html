@@ -13,24 +13,93 @@
 </nav>
 {% endblock %}
 
+{% block extra_css %}
+<style>
+    .settings-checkbox { display: flex; align-items: flex-start; gap: 12px; margin-bottom: 15px; cursor: pointer; }
+    .settings-checkbox input[type="checkbox"] { width: 18px; height: 18px; margin-top: 2px; cursor: pointer; }
+    .settings-checkbox-label { display: flex; flex-direction: column; gap: 2px; }
+    .settings-checkbox-title { font-weight: bold; font-size: 13px; color: #333; }
+    .settings-checkbox-desc { font-size: 11px; color: #666; }
+    .settings-select { padding: 8px 12px; border: 1px solid #ccc; border-radius: 4px; font-size: 13px; max-width: 300px; width: 100%; }
+    .settings-field { margin-bottom: 20px; }
+    .settings-field label { display: block; font-weight: bold; font-size: 12px; color: #555; text-transform: uppercase; margin-bottom: 8px; }
+    .account-table { width: 100%; border-collapse: collapse; }
+    .account-table td { padding: 8px 12px; border: none; font-size: 13px; }
+    .account-table td:first-child { font-weight: bold; color: #555; width: 160px; text-transform: uppercase; font-size: 11px; }
+</style>
+{% endblock %}
+
 {% block content %}
 <div class="main-container">
     <h1 class="page-title">System Settings</h1>
 
     <div class="content-panel">
-        <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">General Preferences</h3>
+        <h3 style="margin: 0 0 20px 0; font-size: 14px; text-transform: uppercase; color: #555;">Notification Preferences</h3>
         <form>
-            <div style="margin-bottom: 20px; display: flex; align-items: center; gap: 15px;">
-                <label style="font-weight: bold; margin: 0;">Email Notifications:</label>
-                <div style="display: flex; align-items: center; gap: 10px;">
-                    <input type="radio" id="email-on" name="email-notif" value="on" checked>
-                    <label for="email-on" style="font-weight: normal; margin: 0;">On</label>
-                    <input type="radio" id="email-off" name="email-notif" value="off">
-                    <label for="email-off" style="font-weight: normal; margin: 0;">Off</label>
+            <label class="settings-checkbox">
+                <input type="checkbox" name="notif_gaps" checked>
+                <div class="settings-checkbox-label">
+                    <span class="settings-checkbox-title">New Skill Gaps Detected</span>
+                    <span class="settings-checkbox-desc">Receive alerts when new skill gaps are identified across your organization</span>
                 </div>
+            </label>
+            <label class="settings-checkbox">
+                <input type="checkbox" name="notif_weekly" checked>
+                <div class="settings-checkbox-label">
+                    <span class="settings-checkbox-title">Weekly Organization Summary</span>
+                    <span class="settings-checkbox-desc">Receive a weekly digest of organization-wide skill gap status</span>
+                </div>
+            </label>
+            <label class="settings-checkbox">
+                <input type="checkbox" name="notif_manager">
+                <div class="settings-checkbox-label">
+                    <span class="settings-checkbox-title">Manager Updates</span>
+                    <span class="settings-checkbox-desc">Receive notifications when managers update their team's skill data</span>
+                </div>
+            </label>
+            <label class="settings-checkbox">
+                <input type="checkbox" name="notif_import" checked>
+                <div class="settings-checkbox-label">
+                    <span class="settings-checkbox-title">Data Import Completion</span>
+                    <span class="settings-checkbox-desc">Receive alerts when CSV data imports are completed or encounter errors</span>
+                </div>
+            </label>
+            <div style="margin-top: 20px;">
+                <button type="button" class="btn btn-primary">Save Notification Settings</button>
             </div>
-            <button type="button" class="btn btn-primary">Save Settings</button>
         </form>
+    </div>
+
+    <div class="content-panel">
+        <h3 style="margin: 0 0 20px 0; font-size: 14px; text-transform: uppercase; color: #555;">Display Preferences</h3>
+        <form>
+            <div class="settings-field">
+                <label for="default-view">Default Dashboard View</label>
+                <select id="default-view" class="settings-select">
+                    <option value="managers" selected>Managers Overview</option>
+                    <option value="members">All Team Members</option>
+                    <option value="skills">Skills Summary</option>
+                </select>
+            </div>
+            <div class="settings-field">
+                <label for="items-per-page">Items Per Page</label>
+                <select id="items-per-page" class="settings-select">
+                    <option value="10">10</option>
+                    <option value="25" selected>25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+            </div>
+            <button type="button" class="btn btn-primary">Save Display Settings</button>
+        </form>
+    </div>
+
+    <div class="content-panel">
+        <h3 style="margin: 0 0 15px 0; font-size: 14px; text-transform: uppercase; color: #555;">Account Information</h3>
+        <table class="account-table">
+            <tr><td>Name</td><td>{{ dl_name }}</td></tr>
+            <tr><td>Role</td><td>Delivery Lead</td></tr>
+        </table>
     </div>
 </div>
 {% endblock %}
