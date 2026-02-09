@@ -25,6 +25,7 @@ The system enforces strict role-based data isolation and navigation.
 | **Delivery Lead (DL)** | Their Org (All Mgrs, Teams) | Org-level skill gap analysis, manager accountability, leaderboard tracking. |
 | **Manager (Mgr)** | Direct Reports Only | Detailed employee review, assigning/cancelling training plans, feedback history, team gap analysis. |
 | **Employee (IC/PM)** | Self Only | View profile, skill matrix, track training plan progress, view feedback. |
+| **Admin** (Overlay) | System Config & Imports | Manage app settings, data imports, and delegate admin privileges to Managers+. |
 
 ## 4. Functional Requirements
 
@@ -44,6 +45,13 @@ The system enforces strict role-based data isolation and navigation.
 *   **Responsive Design:** Desktop-first approach.
 
 ### 4.2. Specific Role Features
+*   **Admin (Overlay Role):**
+    *   **Eligibility:** Must hold a role of Manager or above (Mgr, DL, DH, GDL).
+    *   **Primary Admin:**
+        *   Full access to **Settings** and **Data Import** pages.
+        *   **Delegation:** Can search for and associate any Manager+ level user as a "Secondary Admin".
+    *   **Secondary Admin:**
+        *   Gains additional access to the **Data Import** page.
 *   **Employee:**
     *   **Skill Matrix:** Visual grid of skills with "On-Target" (Green) or "Under-Skilled" (Red) status badges.
     *   **Up-Skill Plan:** Interactive cards showing Learning Need, Links, Milestones, and Deadlines. Supports deep linking to specific cards.
